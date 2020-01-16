@@ -1,0 +1,419 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		15146C4923D086BC009780ED /* SoundPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15146C4823D086BC009780ED /* SoundPlayerViewController.swift */; };
+		1526677C23CF19D0005EED2A /* TrackInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526677B23CF19D0005EED2A /* TrackInformation.swift */; };
+		957626C323B6102F00696C7E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957626C223B6102F00696C7E /* AppDelegate.swift */; };
+		957626CA23B6102F00696C7E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 957626C823B6102F00696C7E /* Main.storyboard */; };
+		957626CC23B6103300696C7E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 957626CB23B6103300696C7E /* Assets.xcassets */; };
+		957626CF23B6103300696C7E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 957626CD23B6103300696C7E /* LaunchScreen.storyboard */; };
+		957626DD23B610AC00696C7E /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 957626D923B610AC00696C7E /* GCDAsyncSocket.m */; };
+		957626DE23B610AC00696C7E /* Array+removeObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957626DA23B610AC00696C7E /* Array+removeObject.swift */; };
+		957626DF23B610AC00696C7E /* BonjourServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957626DC23B610AC00696C7E /* BonjourServer.swift */; };
+		FA2331FF23CF6F0E0030911A /* ListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2331FE23CF6F0E0030911A /* ListViewController.swift */; };
+		FA33E3B123B9EB4900C6003E /* BonjourClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA33E3B023B9EB4900C6003E /* BonjourClient.swift */; };
+		FAE40E3A23B63ABA00FE3E31 /* UIView+CoreKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE40E3923B63ABA00FE3E31 /* UIView+CoreKit.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		15146C4823D086BC009780ED /* SoundPlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundPlayerViewController.swift; sourceTree = "<group>"; };
+		1526677B23CF19D0005EED2A /* TrackInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackInformation.swift; sourceTree = "<group>"; };
+		957626BF23B6102F00696C7E /* QXplayer remote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "QXplayer remote.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		957626C223B6102F00696C7E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		957626C923B6102F00696C7E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		957626CB23B6103300696C7E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		957626CE23B6103300696C7E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		957626D023B6103300696C7E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		957626D723B610AB00696C7E /* QXplayer remote-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "QXplayer remote-Bridging-Header.h"; sourceTree = "<group>"; };
+		957626D823B610AC00696C7E /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncSocket.h; sourceTree = "<group>"; };
+		957626D923B610AC00696C7E /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncSocket.m; sourceTree = "<group>"; };
+		957626DA23B610AC00696C7E /* Array+removeObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Array+removeObject.swift"; sourceTree = "<group>"; };
+		957626DC23B610AC00696C7E /* BonjourServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BonjourServer.swift; sourceTree = "<group>"; };
+		FA2331FE23CF6F0E0030911A /* ListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewController.swift; sourceTree = "<group>"; };
+		FA33E3B023B9EB4900C6003E /* BonjourClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BonjourClient.swift; sourceTree = "<group>"; };
+		FAE40E3923B63ABA00FE3E31 /* UIView+CoreKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+CoreKit.swift"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		957626BC23B6102F00696C7E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		15146C4B23D0907D009780ED /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				957626C223B6102F00696C7E /* AppDelegate.swift */,
+				957626CB23B6103300696C7E /* Assets.xcassets */,
+				957626CD23B6103300696C7E /* LaunchScreen.storyboard */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		15146C4C23D09096009780ED /* Extension&Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				FAE40E3923B63ABA00FE3E31 /* UIView+CoreKit.swift */,
+			);
+			path = "Extension&Helpers";
+			sourceTree = "<group>";
+		};
+		957626B623B6102F00696C7E = {
+			isa = PBXGroup;
+			children = (
+				957626C123B6102F00696C7E /* QXplayer remote */,
+				957626C023B6102F00696C7E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		957626C023B6102F00696C7E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				957626BF23B6102F00696C7E /* QXplayer remote.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		957626C123B6102F00696C7E /* QXplayer remote */ = {
+			isa = PBXGroup;
+			children = (
+				FA23320123CF6FA20030911A /* Model */,
+				FA23320023CF6F850030911A /* ViewControllers */,
+				957626D623B6108C00696C7E /* NetCore */,
+				15146C4B23D0907D009780ED /* Supporting Files */,
+				15146C4C23D09096009780ED /* Extension&Helpers */,
+				957626C823B6102F00696C7E /* Main.storyboard */,
+				957626D023B6103300696C7E /* Info.plist */,
+			);
+			path = "QXplayer remote";
+			sourceTree = "<group>";
+		};
+		957626D623B6108C00696C7E /* NetCore */ = {
+			isa = PBXGroup;
+			children = (
+				957626DA23B610AC00696C7E /* Array+removeObject.swift */,
+				FA33E3B023B9EB4900C6003E /* BonjourClient.swift */,
+				957626DC23B610AC00696C7E /* BonjourServer.swift */,
+				957626D823B610AC00696C7E /* GCDAsyncSocket.h */,
+				957626D923B610AC00696C7E /* GCDAsyncSocket.m */,
+				957626D723B610AB00696C7E /* QXplayer remote-Bridging-Header.h */,
+			);
+			path = NetCore;
+			sourceTree = "<group>";
+		};
+		FA23320023CF6F850030911A /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				15146C4823D086BC009780ED /* SoundPlayerViewController.swift */,
+				FA2331FE23CF6F0E0030911A /* ListViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		FA23320123CF6FA20030911A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				1526677B23CF19D0005EED2A /* TrackInformation.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		957626BE23B6102F00696C7E /* QXplayer remote */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 957626D323B6103300696C7E /* Build configuration list for PBXNativeTarget "QXplayer remote" */;
+			buildPhases = (
+				957626BB23B6102F00696C7E /* Sources */,
+				957626BC23B6102F00696C7E /* Frameworks */,
+				957626BD23B6102F00696C7E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "QXplayer remote";
+			productName = "QXplayer remote";
+			productReference = 957626BF23B6102F00696C7E /* QXplayer remote.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		957626B723B6102F00696C7E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1110;
+				LastUpgradeCheck = 1110;
+				ORGANIZATIONNAME = MDSolution;
+				TargetAttributes = {
+					957626BE23B6102F00696C7E = {
+						CreatedOnToolsVersion = 11.1;
+						LastSwiftMigration = 1110;
+					};
+				};
+			};
+			buildConfigurationList = 957626BA23B6102F00696C7E /* Build configuration list for PBXProject "QXplayer remote" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 957626B623B6102F00696C7E;
+			productRefGroup = 957626C023B6102F00696C7E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				957626BE23B6102F00696C7E /* QXplayer remote */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		957626BD23B6102F00696C7E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				957626CF23B6103300696C7E /* LaunchScreen.storyboard in Resources */,
+				957626CC23B6103300696C7E /* Assets.xcassets in Resources */,
+				957626CA23B6102F00696C7E /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		957626BB23B6102F00696C7E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				957626DF23B610AC00696C7E /* BonjourServer.swift in Sources */,
+				957626DD23B610AC00696C7E /* GCDAsyncSocket.m in Sources */,
+				FA33E3B123B9EB4900C6003E /* BonjourClient.swift in Sources */,
+				15146C4923D086BC009780ED /* SoundPlayerViewController.swift in Sources */,
+				957626C323B6102F00696C7E /* AppDelegate.swift in Sources */,
+				FA2331FF23CF6F0E0030911A /* ListViewController.swift in Sources */,
+				FAE40E3A23B63ABA00FE3E31 /* UIView+CoreKit.swift in Sources */,
+				957626DE23B610AC00696C7E /* Array+removeObject.swift in Sources */,
+				1526677C23CF19D0005EED2A /* TrackInformation.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		957626C823B6102F00696C7E /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				957626C923B6102F00696C7E /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		957626CD23B6103300696C7E /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				957626CE23B6103300696C7E /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		957626D123B6103300696C7E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		957626D223B6103300696C7E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		957626D423B6103300696C7E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = CH3F29MQH7;
+				INFOPLIST_FILE = "QXplayer remote/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mdssolution.testnet.QXplayer-remote";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "QXplayer remote/NetCore/QXplayer remote-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		957626D523B6103300696C7E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = CH3F29MQH7;
+				INFOPLIST_FILE = "QXplayer remote/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mdssolution.testnet.QXplayer-remote";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "QXplayer remote/NetCore/QXplayer remote-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		957626BA23B6102F00696C7E /* Build configuration list for PBXProject "QXplayer remote" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				957626D123B6103300696C7E /* Debug */,
+				957626D223B6103300696C7E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		957626D323B6103300696C7E /* Build configuration list for PBXNativeTarget "QXplayer remote" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				957626D423B6103300696C7E /* Debug */,
+				957626D523B6103300696C7E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 957626B723B6102F00696C7E /* Project object */;
+}
