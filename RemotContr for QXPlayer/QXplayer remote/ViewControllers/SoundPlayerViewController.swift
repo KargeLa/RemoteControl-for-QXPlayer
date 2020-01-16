@@ -11,7 +11,6 @@ import UIKit
 class SoundPlayerViewController: UIViewController {
 
     //MARK: - Outlets
-    
     @IBOutlet weak var nameFolderLabel: UILabel!
     @IBOutlet weak var trackImageView: UIImageView!
     @IBOutlet weak var trackNameLabel: UILabel!
@@ -20,7 +19,6 @@ class SoundPlayerViewController: UIViewController {
     @IBOutlet weak var soundSlider: UISlider!
     
     //MARK: - Properties
-    
     var service: NetService?
     private var bonjourServer: BonjourServer! {
         didSet {
@@ -29,7 +27,6 @@ class SoundPlayerViewController: UIViewController {
     }
     
     //MARK: - Life cycle
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -42,7 +39,6 @@ class SoundPlayerViewController: UIViewController {
     }
   
     //MARK: - Action
-    
     @IBAction func playOrPauseAction(_ sender: UIButton) {
         if sender.titleLabel?.text == "PLAY" {
             sender.setTitle("STOP", for: .normal)
@@ -68,8 +64,7 @@ class SoundPlayerViewController: UIViewController {
     }
 }
 
-//MARK: - BonjourServerDelegate
-
+    //MARK: - BonjourServerDelegate
 extension SoundPlayerViewController: BonjourServerDelegate {
     func connected() {
         print("connected")
@@ -84,8 +79,8 @@ extension SoundPlayerViewController: BonjourServerDelegate {
             let trackInformation = try? JSONDecoder().decode(TrackInformation.self, from: data) else { return }
         
         trackImageView.image = UIImage(data: trackInformation.imageData)
-        trackNameLabel.text = trackInformation.nameTrack
-        artistNameLabel.text = trackInformation.nameAlbum
+        trackNameLabel.text = trackInformation.trackName
+        artistNameLabel.text = trackInformation.albumName
     }
     
     func didChangeServices() {

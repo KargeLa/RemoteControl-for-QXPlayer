@@ -10,7 +10,7 @@ import Foundation
 
 
 struct TrackInformation: Codable {
-    var nameTrack: String
-    var nameAlbum: String
+    var trackName: String
+    var albumName: String
     var imageData: Data
 }
