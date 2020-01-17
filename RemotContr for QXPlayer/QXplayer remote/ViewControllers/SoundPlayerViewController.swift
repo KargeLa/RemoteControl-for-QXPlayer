@@ -40,7 +40,6 @@ class SoundPlayerViewController: UIViewController {
   
     //MARK: - Action
     @IBAction func playOrPauseAction(_ sender: UIButton) {
-        
         if sender.currentImage?.pngData() == UIImage(named: "play-button")?.pngData() {
             sender.setImage(UIImage(named: "pause"), for: .normal)
             if let data = "PAUSE".data(using: String.Encoding.utf8) {
@@ -53,6 +52,8 @@ class SoundPlayerViewController: UIViewController {
             }
         }
     
+        
+        
     }
     
     @IBAction func backwardAction(_ sender: UIButton) {
@@ -77,11 +78,14 @@ extension SoundPlayerViewController: BonjourServerDelegate {
     
     func handleBody(_ body: Data?) {
         guard let data = body,
-            let trackInformation = try? JSONDecoder().decode(TrackInformation.self, from: data) else { return }
+            let trackInformation = try? JSONDecoder().decode(TrackInformation.self, from: data),
+            let image = UIImage(data: trackInformation.imageData) else { return }
         
-        trackImageView.image = UIImage(data: trackInformation.imageData)
         trackNameLabel.text = trackInformation.trackName
         artistNameLabel.text = trackInformation.albumName
+        trackImageView.image = image
+        
+        view.backgroundColor = UIColor(patternImage: image)
     }
     
     func didChangeServices() {
