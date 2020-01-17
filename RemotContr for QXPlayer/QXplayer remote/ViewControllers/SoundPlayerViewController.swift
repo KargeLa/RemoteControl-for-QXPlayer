@@ -40,18 +40,19 @@ class SoundPlayerViewController: UIViewController {
   
     //MARK: - Action
     @IBAction func playOrPauseAction(_ sender: UIButton) {
-        if sender.titleLabel?.text == "PLAY" {
-            sender.setTitle("STOP", for: .normal)
-            if let data = sender.titleLabel?.text?.data(using: String.Encoding.utf8) {
+        
+        if sender.currentImage?.pngData() == UIImage(named: "play-button")?.pngData() {
+            sender.setImage(UIImage(named: "pause"), for: .normal)
+            if let data = "PAUSE".data(using: String.Encoding.utf8) {
                 bonjourServer.send(data)
             }
         } else {
-            trackNameLabel.text = " "
-            sender.setTitle("PLAY", for: .normal)
-            if let data = sender.titleLabel?.text?.data(using: String.Encoding.utf8) {
+            sender.setImage(UIImage(named: "play-button"), for: .normal)
+            if let data = "PLAY".data(using: String.Encoding.utf8) {
                 bonjourServer.send(data)
             }
         }
+    
     }
     
     @IBAction func backwardAction(_ sender: UIButton) {
