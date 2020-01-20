@@ -11,6 +11,7 @@ import UIKit
 class SoundPlayerViewController: UIViewController {
 
     //MARK: - Outlets
+    
     @IBOutlet weak var nameFolderLabel: UILabel!
     @IBOutlet weak var trackImageView: UIImageView!
     @IBOutlet weak var trackNameLabel: UILabel!
@@ -19,7 +20,8 @@ class SoundPlayerViewController: UIViewController {
     @IBOutlet weak var soundSlider: UISlider!
     
     //MARK: - Properties
-    var service: NetService?
+    
+    var _service: NetService?
     private var bonjourServer: BonjourServer! {
         didSet {
             bonjourServer.delegate = self
@@ -27,18 +29,24 @@ class SoundPlayerViewController: UIViewController {
     }
     
     //MARK: - Life cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        if let image = trackImageView.image {
+            view.backgroundColor = UIColor(patternImage: image)
+        }
+        
         bonjourServer = BonjourServer()
         navigationController?.setNavigationBarHidden(true, animated: true)
         
-        if let service = service {
+        if let service = _service {
             bonjourServer.connectTo(service)
         }
     }
   
     //MARK: - Action
+    
     @IBAction func playOrPauseAction(_ sender: UIButton) {
         if sender.currentImage?.pngData() == UIImage(named: "play-button")?.pngData() {
             sender.setImage(UIImage(named: "pause"), for: .normal)
@@ -66,7 +74,8 @@ class SoundPlayerViewController: UIViewController {
     }
 }
 
-    //MARK: - BonjourServerDelegate
+//MARK: - BonjourServerDelegate
+
 extension SoundPlayerViewController: BonjourServerDelegate {
     func connected() {
         print("connected")
@@ -89,6 +98,32 @@ extension SoundPlayerViewController: BonjourServerDelegate {
     }
     
     func didChangeServices() {
-        print("didChangeServices")
+//        if let devices = bonjourServer.devices, let service = _service {
+//
+//            if devices.count == .zero {
+//                navigationController?.popViewController(animated: true)
+//                navigationController?.setNavigationBarHidden(false, animated: true)
+//            } else {
+//
+//                for device in devices {
+//                    if device == service {
+//                        if bonjourServer.connectToServer(device) {
+//                            return
+//                        } else {
+//                            bonjourServer.connectTo(device)
+//                            return
+//                        }
+//                    }
+//                }
+//
+//                navigationController?.popViewController(animated: true)
+//                navigationController?.setNavigationBarHidden(false, animated: true)
+//
+//            }
+//
+//
+//
+//
+//        }
     }
 }

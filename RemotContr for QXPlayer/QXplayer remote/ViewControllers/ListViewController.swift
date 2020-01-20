@@ -11,6 +11,7 @@ import UIKit
 class ListViewController: UIViewController {
     
     //MARK: - Properties
+    
     private var bonjourServerForDevicesList: BonjourServer! {
         didSet {
             bonjourServerForDevicesList.delegate = self
@@ -19,6 +20,7 @@ class ListViewController: UIViewController {
     private var service: NetService?
     
     //MARK: - Outlets
+    
     @IBOutlet weak var listTableView: UITableView! {
         didSet {
             listTableView.delegate = self
@@ -26,9 +28,8 @@ class ListViewController: UIViewController {
         }
     }
     
-    //MARK: - Actions
+    //MARK: - LifeCycle
     
-    //MARK: - LifeCyrcle
     override func viewDidLoad() {
         super.viewDidLoad()
         bonjourServerForDevicesList = BonjourServer()
@@ -39,9 +40,11 @@ class ListViewController: UIViewController {
         
         guard let destinationVC = segue.destination as? SoundPlayerViewController,
             let service = service else { return }
-        destinationVC.service = service
+        destinationVC._service = service
     }
 }
+
+//MARK: - UITableViewDelegate, UITableViewDataSource
 
 extension ListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -55,19 +58,7 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        if !bonjourServerForDevicesList.devices.isEmpty {
-//            let service = bonjourServerForDevicesList.devices[indexPath.row]
-//            bonjourServerForDevicesList.connectTo(service)
-//        }
-//        let tabBarController = self.storyboard?.instantiateViewController(withIdentifier: "RemoteTabBarController") as! UITabBarController
-//        tabBarController.modalPresentationStyle = .fullScreen
-//        self.present(tabBarController, animated: false) {
-//               //This selected index will be the index of your view controller you want to present
-//               tabBarController.selectedIndex = 0
-//            
-//           }
-    }
+    
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         if !bonjourServerForDevicesList.devices.isEmpty {
             service = bonjourServerForDevicesList.devices[indexPath.row]
@@ -78,6 +69,7 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 //MARK: - BonjourServerDelegate
+
 extension ListViewController: BonjourServerDelegate {
     func connected() {
         print("connected")
