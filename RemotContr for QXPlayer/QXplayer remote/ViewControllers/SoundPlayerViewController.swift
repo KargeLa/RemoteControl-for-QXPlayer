@@ -28,6 +28,8 @@ class SoundPlayerViewController: UIViewController {
         }
     }
     
+    var list: List!
+    
     //MARK: - Life cycle
     
     override func viewDidLoad() {
@@ -48,29 +50,56 @@ class SoundPlayerViewController: UIViewController {
     //MARK: - Action
     
     @IBAction func playOrPauseAction(_ sender: UIButton) {
-        if sender.currentImage?.pngData() == UIImage(named: "play-button")?.pngData() {
-            sender.setImage(UIImage(named: "pause"), for: .normal)
-            if let data = "PAUSE".data(using: String.Encoding.utf8) {
+        
+        if sender.currentImage?.pngData() == UIImage(named: "pause")?.pngData() {
+            sender.setImage(UIImage(named: "play-button"), for: .normal)
+            
+            if let data = "pause".data(using: .utf8) {
                 bonjourServer.send(data)
             }
         } else {
-            sender.setImage(UIImage(named: "play-button"), for: .normal)
-            if let data = "PLAY".data(using: String.Encoding.utf8) {
+            sender.setImage(UIImage(named: "pause"), for: .normal)
+            if let data = "play".data(using: .utf8) {
                 bonjourServer.send(data)
             }
         }
     
-        
-        
     }
     
     @IBAction func backwardAction(_ sender: UIButton) {
+        guard let prevTrack = list.prevTrack() else { return }
+        updateUI(trackInformation: prevTrack)
+        if let data = "back".data(using: .utf8) {
+            bonjourServer.send(data)
+        }
+        
     }
+    
     @IBAction func forwardAction(_ sender: UIButton) {
+        guard let nextTrack = list.nextTrack() else { return }
+        updateUI(trackInformation: nextTrack)
+        if let data = "forward".data(using: .utf8) {
+            bonjourServer.send(data)
+        }
     }
+    
     @IBAction func repeatAction(_ sender: UIButton) {
+        print(#function)
     }
+    
     @IBAction func goBackwardAction(_ sender: UIButton) {
+        print(#function)
+    }
+    
+    
+    private func updateUI(trackInformation: TrackInformation ) {
+        trackNameLabel.text = trackInformation.trackName
+        artistNameLabel.text = trackInformation.albumName
+        
+        guard let trackImage = UIImage(data: trackInformation.imageData) else { return }
+        
+        trackImageView.image = trackImage
+        view.backgroundColor = UIColor(patternImage: trackImage)
     }
 }
 
@@ -87,14 +116,11 @@ extension SoundPlayerViewController: BonjourServerDelegate {
     
     func handleBody(_ body: Data?) {
         guard let data = body,
-            let trackInformation = try? JSONDecoder().decode(TrackInformation.self, from: data),
-            let image = UIImage(data: trackInformation.imageData) else { return }
+            let trackList = try? JSONDecoder().decode(TrackList.self, from: data) else { return }
         
-        trackNameLabel.text = trackInformation.trackName
-        artistNameLabel.text = trackInformation.albumName
-        trackImageView.image = image
+        list = List(tracksInformation: trackList.tracksInformation, currentTrack: trackList.tracksInformation[0])
+        updateUI(trackInformation: list.currentTrack )
         
-        view.backgroundColor = UIColor(patternImage: image)
     }
     
     func didChangeServices() {

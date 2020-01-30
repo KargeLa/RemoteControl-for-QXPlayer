@@ -8,9 +8,54 @@
 
 import Foundation
 
+struct TrackList: Codable {
+    var tracksInformation: [TrackInformation]
+}
 
 struct TrackInformation: Codable {
     var trackName: String
     var albumName: String
     var imageData: Data
+}
+
+struct List {
+    var tracksInformation: [TrackInformation]
+    var currentTrack: TrackInformation
+    
+    
+    mutating func nextTrack() -> TrackInformation? {
+        
+        if currentTrack.trackName == tracksInformation[tracksInformation.count - 1].trackName {
+            return nil
+        } else {
+            var i = 0
+            for trackInfo in tracksInformation {
+                if currentTrack.trackName == trackInfo.trackName {
+                    currentTrack = tracksInformation[i + 1]
+                    return currentTrack
+                }
+                i = i + 1
+            }
+        }
+        
+        return nil
+    }
+    
+    mutating func prevTrack() -> TrackInformation? {
+        
+        
+        if currentTrack.trackName == tracksInformation[0].trackName {
+            return nil
+        } else {
+            var i = 0
+            for trackInfo in tracksInformation {
+                if currentTrack.trackName == trackInfo.trackName {
+                    currentTrack = tracksInformation[i - 1]
+                    return currentTrack
+                }
+                i = i + 1
+            }
+        }
+        return nil
+    }
 }

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		15146C4923D086BC009780ED /* SoundPlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15146C4823D086BC009780ED /* SoundPlayerViewController.swift */; };
+		151CCA7B23E2FC5B00A30D4F /* ListTrackViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151CCA7A23E2FC5B00A30D4F /* ListTrackViewController.swift */; };
 		1526677C23CF19D0005EED2A /* TrackInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526677B23CF19D0005EED2A /* TrackInformation.swift */; };
 		957626C323B6102F00696C7E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957626C223B6102F00696C7E /* AppDelegate.swift */; };
 		957626CA23B6102F00696C7E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 957626C823B6102F00696C7E /* Main.storyboard */; };
@@ -23,6 +24,7 @@
 
 /* Begin PBXFileReference section */
 		15146C4823D086BC009780ED /* SoundPlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundPlayerViewController.swift; sourceTree = "<group>"; };
+		151CCA7A23E2FC5B00A30D4F /* ListTrackViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTrackViewController.swift; sourceTree = "<group>"; };
 		1526677B23CF19D0005EED2A /* TrackInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackInformation.swift; sourceTree = "<group>"; };
 		957626BF23B6102F00696C7E /* QXplayer remote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "QXplayer remote.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		957626C223B6102F00696C7E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -116,6 +118,7 @@
 			isa = PBXGroup;
 			children = (
 				15146C4823D086BC009780ED /* SoundPlayerViewController.swift */,
+				151CCA7A23E2FC5B00A30D4F /* ListTrackViewController.swift */,
 				FA2331FE23CF6F0E0030911A /* ListViewController.swift */,
 			);
 			path = ViewControllers;
@@ -207,6 +210,7 @@
 				15146C4923D086BC009780ED /* SoundPlayerViewController.swift in Sources */,
 				957626C323B6102F00696C7E /* AppDelegate.swift in Sources */,
 				FA2331FF23CF6F0E0030911A /* ListViewController.swift in Sources */,
+				151CCA7B23E2FC5B00A30D4F /* ListTrackViewController.swift in Sources */,
 				FAE40E3A23B63ABA00FE3E31 /* UIView+CoreKit.swift in Sources */,
 				957626DE23B610AC00696C7E /* Array+removeObject.swift in Sources */,
 				1526677C23CF19D0005EED2A /* TrackInformation.swift in Sources */,
