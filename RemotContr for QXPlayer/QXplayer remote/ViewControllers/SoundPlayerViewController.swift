@@ -98,32 +98,27 @@ extension SoundPlayerViewController: BonjourServerDelegate {
     }
     
     func didChangeServices() {
-//        if let devices = bonjourServer.devices, let service = _service {
-//
-//            if devices.count == .zero {
-//                navigationController?.popViewController(animated: true)
-//                navigationController?.setNavigationBarHidden(false, animated: true)
-//            } else {
-//
-//                for device in devices {
-//                    if device == service {
-//                        if bonjourServer.connectToServer(device) {
-//                            return
-//                        } else {
-//                            bonjourServer.connectTo(device)
-//                            return
-//                        }
-//                    }
-//                }
-//
-//                navigationController?.popViewController(animated: true)
-//                navigationController?.setNavigationBarHidden(false, animated: true)
-//
-//            }
-//
-//
-//
-//
-//        }
+        if let devices = bonjourServer.devices, let service = _service {
+
+            if devices.count == .zero {
+                navigationController?.popViewController(animated: true)
+                navigationController?.setNavigationBarHidden(false, animated: true)
+            } else {
+                for device in devices {
+                    if device == service {
+                        if bonjourServer.connectToServer(device) {
+                            return
+                        } else {
+                            bonjourServer.connectTo(device)
+                            return
+                        }
+                    }
+                }
+                
+                navigationController?.popViewController(animated: true)
+                navigationController?.setNavigationBarHidden(false, animated: true)
+            }
+
+        }
     }
 }
