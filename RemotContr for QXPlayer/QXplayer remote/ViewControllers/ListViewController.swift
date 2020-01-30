@@ -11,7 +11,6 @@ import UIKit
 class ListViewController: UIViewController {
     
     //MARK: - Properties
-    
     private var bonjourServerForDevicesList: BonjourServer! {
         didSet {
             bonjourServerForDevicesList.delegate = self
@@ -20,7 +19,6 @@ class ListViewController: UIViewController {
     private var service: NetService?
     
     //MARK: - Outlets
-    
     @IBOutlet weak var listTableView: UITableView! {
         didSet {
             listTableView.delegate = self
@@ -29,7 +27,6 @@ class ListViewController: UIViewController {
     }
     
     //MARK: - LifeCycle
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         bonjourServerForDevicesList = BonjourServer()
@@ -44,8 +41,7 @@ class ListViewController: UIViewController {
     }
 }
 
-//MARK: - UITableViewDelegate, UITableViewDataSource
-
+    //MARK: - UITableViewDelegate, UITableViewDataSource
 extension ListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return bonjourServerForDevicesList.devices.count
@@ -68,8 +64,7 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
     }
 }
 
-//MARK: - BonjourServerDelegate
-
+    //MARK: - BonjourServerDelegate
 extension ListViewController: BonjourServerDelegate {
     func connected() {
         print("connected")
