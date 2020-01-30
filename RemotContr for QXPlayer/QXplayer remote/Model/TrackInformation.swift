@@ -37,12 +37,10 @@ struct List {
                 i = i + 1
             }
         }
-        
         return nil
     }
     
     mutating func prevTrack() -> TrackInformation? {
-        
         
         if currentTrack.trackName == tracksInformation[0].trackName {
             return nil
