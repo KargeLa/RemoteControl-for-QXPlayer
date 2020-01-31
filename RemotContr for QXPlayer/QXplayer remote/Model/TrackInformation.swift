@@ -10,12 +10,9 @@ import Foundation
 
 struct TrackList: Codable {
     var tracksInformation: [TrackInformation]
-    var currentTrack: TrackInformation?
+    var currentTrack: TrackInformation
     
     mutating func nextTrack() -> TrackInformation? {
-        
-        guard let currentTrack = currentTrack else { return nil }
-        
         
         if currentTrack.trackName == tracksInformation[tracksInformation.count - 1].trackName {
             return nil
@@ -23,8 +20,8 @@ struct TrackList: Codable {
             var i = 0
             for trackInfo in tracksInformation {
                 if currentTrack.trackName == trackInfo.trackName {
-                    self.currentTrack = tracksInformation[i + 1]
-                    return tracksInformation[i + 1]
+                    currentTrack = tracksInformation[i + 1]
+                    return currentTrack
                 }
                 i = i + 1
             }
@@ -34,19 +31,28 @@ struct TrackList: Codable {
     
     mutating func prevTrack() -> TrackInformation? {
         
-        guard let currentTrack = currentTrack else { return nil }
-        
         if currentTrack.trackName == tracksInformation[0].trackName {
             return nil
         } else {
             var i = 0
             for trackInfo in tracksInformation {
                 if currentTrack.trackName == trackInfo.trackName {
-                    self.currentTrack = tracksInformation[i - 1]
-                    return tracksInformation[i - 1]
+                    currentTrack = tracksInformation[i - 1]
+                    return currentTrack
                 }
                 i = i + 1
             }
+        }
+        return nil
+    }
+    
+    func searchTrack(byTrackName trackName: String) -> TrackInformation? {
+        var i = 0
+        for trackInfo in tracksInformation {
+            if trackInfo.trackName == trackName {
+                return trackInfo
+            }
+            i = i + 1
         }
         return nil
     }
