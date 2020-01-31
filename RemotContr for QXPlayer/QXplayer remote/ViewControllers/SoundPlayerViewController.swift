@@ -53,7 +53,6 @@ class SoundPlayerViewController: UIViewController {
         
         if sender.currentImage?.pngData() == UIImage(named: "pause")?.pngData() {
             sender.setImage(UIImage(named: "play-button"), for: .normal)
-            
             if let data = "pause".data(using: .utf8) {
                 bonjourServer.send(data)
             }
@@ -129,10 +128,10 @@ extension SoundPlayerViewController: BonjourServerDelegate {
         guard let data = body,
             let trackList = try? JSONDecoder().decode(TrackList.self, from: data) else { return }
         
-        self.trackList = TrackList(tracksInformation: trackList.tracksInformation, currentTrack: trackList.currentTrack ?? trackList.tracksInformation[0])
-        updateUI(trackInformation: (self.trackList?.currentTrack)! )
-        subscribeToDelegate()
         
+        self.trackList = trackList
+        updateUI(trackInformation: trackList.currentTrack )
+        subscribeToDelegate()
     }
     
     func didChangeServices() {
@@ -161,20 +160,17 @@ extension SoundPlayerViewController: BonjourServerDelegate {
     }
 }
 
+//MARK: - SelectedDelegate
+
 extension SoundPlayerViewController: SelectedDelegate {
     func didSelectRow(currentTrackName: String) {
         
-        if let data = currentTrackName.data(using: .utf8) {
+        if let trackInformation = trackList?.searchTrack(byTrackName: currentTrackName),
+            let data = currentTrackName.data(using: .utf8) {
+            updateUI(trackInformation: trackInformation)
+            trackList?.currentTrack = trackInformation
             bonjourServer.send(data)
         }
-        
-        for trackInfo in trackList!.tracksInformation {
-            if trackInfo.trackName == currentTrackName {
-                updateUI(trackInformation: trackInfo)
-                trackList?.currentTrack = trackInfo
-            }
-        }
-
     }
     
     
