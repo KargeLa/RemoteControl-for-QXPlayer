@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ListTrackViewController: UIViewController {
+class TrackListViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     

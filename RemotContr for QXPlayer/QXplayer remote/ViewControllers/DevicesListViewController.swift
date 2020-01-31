@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ListViewController: UIViewController {
+class DevicesListViewController: UIViewController {
     
     //MARK: - Properties
     private var bonjourServerForDevicesList: BonjourServer! {
@@ -42,7 +42,7 @@ class ListViewController: UIViewController {
 }
 
     //MARK: - UITableViewDelegate, UITableViewDataSource
-extension ListViewController: UITableViewDelegate, UITableViewDataSource {
+extension DevicesListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return bonjourServerForDevicesList.devices.count
     }
@@ -65,7 +65,7 @@ extension ListViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
     //MARK: - BonjourServerDelegate
-extension ListViewController: BonjourServerDelegate {
+extension DevicesListViewController: BonjourServerDelegate {
     func connected() {
         print("connected")
     }
