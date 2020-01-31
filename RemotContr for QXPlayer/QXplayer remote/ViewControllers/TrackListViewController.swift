@@ -10,15 +10,13 @@ import UIKit
 
 class TrackListViewController: UIViewController {
 
+    //MARK: - Outlets
+    
     @IBOutlet weak var tableView: UITableView!
+    
+    //MARK: - LifeCyrcle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
     }
-    
-
-  
-
 }

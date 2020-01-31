@@ -103,7 +103,7 @@ class SoundPlayerViewController: UIViewController {
     }
 }
 
-//MARK: - BonjourServerDelegate
+    //MARK: - BonjourServerDelegate
 
 extension SoundPlayerViewController: BonjourServerDelegate {
     func connected() {
