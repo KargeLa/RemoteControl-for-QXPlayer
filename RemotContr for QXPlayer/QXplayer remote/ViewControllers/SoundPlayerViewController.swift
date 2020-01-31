@@ -100,6 +100,18 @@ class SoundPlayerViewController: UIViewController {
         trackImageView.image = trackImage
         view.backgroundColor = UIColor(patternImage: trackImage)
     }
+    
+    private func subscribeToDelegate() {
+        if let viewControllers = tabBarController?.viewControllers {
+            for viewController in viewControllers {
+                if let vc = (viewController as? UINavigationController)?.topViewController as? TrackListViewController {
+                    vc.delegate = self
+                    break
+                }
+                
+            }
+        }
+    }
 }
 
     //MARK: - BonjourServerDelegate
@@ -119,6 +131,7 @@ extension SoundPlayerViewController: BonjourServerDelegate {
         
         self.trackList = TrackList(tracksInformation: trackList.tracksInformation, currentTrack: trackList.currentTrack ?? trackList.tracksInformation[0])
         updateUI(trackInformation: (self.trackList?.currentTrack)! )
+        subscribeToDelegate()
         
     }
     
@@ -146,4 +159,23 @@ extension SoundPlayerViewController: BonjourServerDelegate {
 
         }
     }
+}
+
+extension SoundPlayerViewController: SelectedDelegate {
+    func didSelectRow(currentTrackName: String) {
+        
+        if let data = currentTrackName.data(using: .utf8) {
+            bonjourServer.send(data)
+        }
+        
+        for trackInfo in trackList!.tracksInformation {
+            if trackInfo.trackName == currentTrackName {
+                updateUI(trackInformation: trackInfo)
+                trackList?.currentTrack = trackInfo
+            }
+        }
+
+    }
+    
+    
 }
