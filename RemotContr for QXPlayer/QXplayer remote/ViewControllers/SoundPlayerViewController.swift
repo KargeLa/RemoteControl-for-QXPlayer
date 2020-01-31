@@ -28,7 +28,7 @@ class SoundPlayerViewController: UIViewController {
         }
     }
     
-    var list: List!
+    var trackList: TrackList?
     
     //MARK: - Life cycle
     
@@ -67,7 +67,7 @@ class SoundPlayerViewController: UIViewController {
     }
     
     @IBAction func backwardAction(_ sender: UIButton) {
-        guard let prevTrack = list.prevTrack() else { return }
+        guard let prevTrack = trackList?.prevTrack() else { return }
         updateUI(trackInformation: prevTrack)
         if let data = "back".data(using: .utf8) {
             bonjourServer.send(data)
@@ -76,7 +76,7 @@ class SoundPlayerViewController: UIViewController {
     }
     
     @IBAction func forwardAction(_ sender: UIButton) {
-        guard let nextTrack = list.nextTrack() else { return }
+        guard let nextTrack = trackList?.nextTrack() else { return }
         updateUI(trackInformation: nextTrack)
         if let data = "forward".data(using: .utf8) {
             bonjourServer.send(data)
@@ -90,7 +90,6 @@ class SoundPlayerViewController: UIViewController {
     @IBAction func goBackwardAction(_ sender: UIButton) {
         print(#function)
     }
-    
     
     private func updateUI(trackInformation: TrackInformation ) {
         trackNameLabel.text = trackInformation.trackName
@@ -118,8 +117,8 @@ extension SoundPlayerViewController: BonjourServerDelegate {
         guard let data = body,
             let trackList = try? JSONDecoder().decode(TrackList.self, from: data) else { return }
         
-        list = List(tracksInformation: trackList.tracksInformation, currentTrack: trackList.tracksInformation[0])
-        updateUI(trackInformation: list.currentTrack )
+        self.trackList = TrackList(tracksInformation: trackList.tracksInformation, currentTrack: trackList.currentTrack ?? trackList.tracksInformation[0])
+        updateUI(trackInformation: (self.trackList?.currentTrack)! )
         
     }
     
