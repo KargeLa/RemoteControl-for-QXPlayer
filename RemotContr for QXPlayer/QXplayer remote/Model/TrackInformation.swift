@@ -10,20 +10,12 @@ import Foundation
 
 struct TrackList: Codable {
     var tracksInformation: [TrackInformation]
-}
-
-struct TrackInformation: Codable {
-    var trackName: String
-    var albumName: String
-    var imageData: Data
-}
-
-struct List {
-    var tracksInformation: [TrackInformation]
-    var currentTrack: TrackInformation
-    
+    var currentTrack: TrackInformation?
     
     mutating func nextTrack() -> TrackInformation? {
+        
+        guard let currentTrack = currentTrack else { return nil }
+        
         
         if currentTrack.trackName == tracksInformation[tracksInformation.count - 1].trackName {
             return nil
@@ -31,8 +23,8 @@ struct List {
             var i = 0
             for trackInfo in tracksInformation {
                 if currentTrack.trackName == trackInfo.trackName {
-                    currentTrack = tracksInformation[i + 1]
-                    return currentTrack
+                    self.currentTrack = tracksInformation[i + 1]
+                    return tracksInformation[i + 1]
                 }
                 i = i + 1
             }
@@ -43,6 +35,7 @@ struct List {
     
     mutating func prevTrack() -> TrackInformation? {
         
+        guard let currentTrack = currentTrack else { return nil }
         
         if currentTrack.trackName == tracksInformation[0].trackName {
             return nil
@@ -50,12 +43,18 @@ struct List {
             var i = 0
             for trackInfo in tracksInformation {
                 if currentTrack.trackName == trackInfo.trackName {
-                    currentTrack = tracksInformation[i - 1]
-                    return currentTrack
+                    self.currentTrack = tracksInformation[i - 1]
+                    return tracksInformation[i - 1]
                 }
                 i = i + 1
             }
         }
         return nil
     }
+}
+
+struct TrackInformation: Codable {
+    var trackName: String
+    var albumName: String
+    var imageData: Data
 }
