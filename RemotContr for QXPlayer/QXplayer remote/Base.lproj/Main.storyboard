@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bdY-hU-TQR">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bdY-hU-TQR">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -17,9 +17,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mme-X4-Rz2">
+                                <rect key="frame" x="0.0" y="73" width="414" height="750"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ro5-Hv-b4i">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="6rM-vs-3xf">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </view>
+                                <blurEffect style="regular"/>
+                            </visualEffectView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="7b7-gO-RgU">
-                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="769"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="sectionIndexBackgroundColor" systemColor="systemIndigoColor" red="0.34509803919999998" green="0.33725490200000002" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <outlet property="dataSource" destination="G4p-3B-AD7" id="jH1-y0-Ge0"/>
                                     <outlet property="delegate" destination="G4p-3B-AD7" id="7qo-GY-V8j"/>
@@ -30,28 +43,35 @@
                         <constraints>
                             <constraint firstItem="7b7-gO-RgU" firstAttribute="top" secondItem="u2E-Er-5cC" secondAttribute="top" id="CmW-Aw-auF"/>
                             <constraint firstItem="7b7-gO-RgU" firstAttribute="leading" secondItem="u2E-Er-5cC" secondAttribute="leading" id="JkN-PE-IQy"/>
+                            <constraint firstItem="ro5-Hv-b4i" firstAttribute="leading" secondItem="u2E-Er-5cC" secondAttribute="leading" id="K7m-DQ-9by"/>
                             <constraint firstItem="u2E-Er-5cC" firstAttribute="bottom" secondItem="7b7-gO-RgU" secondAttribute="bottom" id="MJV-Cm-lt0"/>
                             <constraint firstItem="u2E-Er-5cC" firstAttribute="trailing" secondItem="7b7-gO-RgU" secondAttribute="trailing" id="NzI-2A-f59"/>
+                            <constraint firstItem="ro5-Hv-b4i" firstAttribute="trailing" secondItem="u2E-Er-5cC" secondAttribute="trailing" id="cfa-2B-T91"/>
+                            <constraint firstAttribute="bottom" secondItem="ro5-Hv-b4i" secondAttribute="bottom" id="jKd-Z9-dGk"/>
+                            <constraint firstItem="ro5-Hv-b4i" firstAttribute="top" secondItem="CMP-9c-WaT" secondAttribute="top" id="nAb-eY-yUb"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="u2E-Er-5cC"/>
                     </view>
                     <navigationItem key="navigationItem" id="c4w-ms-9y3"/>
                     <connections>
+                        <outlet property="backgroundImage" destination="Mme-X4-Rz2" id="Gn9-EV-dZy"/>
                         <outlet property="tableView" destination="7b7-gO-RgU" id="Kak-VE-5ke"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XSF-5C-htT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1546" y="968"/>
+            <point key="canvasLocation" x="1544.9275362318842" y="967.63392857142856"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="Uke-f4-2l0">
             <objects>
                 <tabBarController storyboardIdentifier="RemoteTabBarController" id="bdY-hU-TQR" sceneMemberID="viewController">
-                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="t9G-rs-yff">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" backgroundImage="Я" id="t9G-rs-yff">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="tintColor" red="1" green="0.57637232540000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="selectedImageTintColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </tabBar>
                     <connections>
                         <segue destination="mal-Zq-wCL" kind="relationship" relationship="viewControllers" id="uKk-0v-Mlz"/>
@@ -287,7 +307,7 @@
         <scene sceneID="ehj-rq-1z3">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="mal-Zq-wCL" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="vkX-bI-Tpc"/>
+                    <tabBarItem key="tabBarItem" title="Item" image="music.house" catalog="system" id="vkX-bI-Tpc"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="oS4-bU-SP1">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -308,11 +328,10 @@
         <!--Other-->
         <scene sceneID="PJu-wy-9h4">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="9aR-Fs-LuH" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Other" id="lr1-x0-NGc"/>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="9aR-Fs-LuH" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Other" image="doc.on.doc" catalog="system" id="lr1-x0-NGc"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="A08-bE-FTA">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -327,11 +346,14 @@
     </scenes>
     <resources>
         <image name="backward.fill" catalog="system" width="64" height="38"/>
+        <image name="doc.on.doc" catalog="system" width="58" height="64"/>
         <image name="forward.fill" catalog="system" width="64" height="38"/>
         <image name="gobackward" catalog="system" width="60" height="64"/>
+        <image name="music.house" catalog="system" width="64" height="52"/>
         <image name="play-button" width="64" height="64"/>
         <image name="repeat" catalog="system" width="64" height="48"/>
         <image name="speaker.3.fill" catalog="system" width="64" height="44"/>
         <image name="textformat.123" catalog="system" width="64" height="30"/>
+        <image name="Я" width="16" height="16"/>
     </resources>
 </document>

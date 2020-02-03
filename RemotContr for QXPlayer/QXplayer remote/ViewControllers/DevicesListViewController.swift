@@ -33,6 +33,9 @@ class DevicesListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         bonjourServerForDevicesList = BonjourServer()
+        
+        self.tabBarController?.tabBar.backgroundColor = UIColor.clear
+        self.tabBarController?.tabBar.isTranslucent = true
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
