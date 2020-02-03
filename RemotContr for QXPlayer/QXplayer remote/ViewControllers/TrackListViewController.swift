@@ -49,10 +49,6 @@ class TrackListViewController: UIViewController {
             trackImageData = vc.trackList?.tracksInformation.map { $0.imageData }
             break
         }
-        
-        guard let trackImage = UIImage(data: (trackImageData?[0])!) else { return }
-        
-        backgroundImage.image = trackImage
     }
 }
 //MARK: - TableView DataSource & Delegate
@@ -70,6 +66,7 @@ extension TrackListViewController: UITableViewDelegate, UITableViewDataSource {
         var cellImg: UIImageView = UIImageView(frame: CGRect(x: 0, y: 3, width: 40, height: 40))
         cellImg.image = trackImage
         cell.addSubview(cellImg)
+        backgroundImage.image = trackImage
         
         var cellLabel: UILabel = UILabel(frame: CGRect(x: 45, y: 0, width: 100, height: 40))
         cellLabel.text = trackListName?[indexPath.row] ?? " "
@@ -80,6 +77,10 @@ extension TrackListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        guard let trackImage = UIImage(data: (trackImageData?[indexPath.row])!) else { return }
+        backgroundImage.image = trackImage
+        
         guard let currentTrackName = trackListName?[indexPath.row] else { return }
         delegate?.didSelectRow(currentTrackName: currentTrackName)
     }
