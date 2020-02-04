@@ -40,7 +40,7 @@ class SoundPlayerViewController: UIViewController {
         }
         
         bonjourServer = BonjourServer()
-        navigationController?.setNavigationBarHidden(true, animated: true)
+        navigationController?.navigationBar.isHidden = true
         
         if let service = _service {
             bonjourServer.connectTo(service)
@@ -139,7 +139,6 @@ extension SoundPlayerViewController: BonjourServerDelegate {
 
             if devices.count == .zero {
                 navigationController?.popViewController(animated: true)
-                navigationController?.setNavigationBarHidden(false, animated: true)
             } else {
                 for device in devices {
                     if device == service {
@@ -153,7 +152,6 @@ extension SoundPlayerViewController: BonjourServerDelegate {
                 }
                 
                 navigationController?.popViewController(animated: true)
-                navigationController?.setNavigationBarHidden(false, animated: true)
             }
 
         }

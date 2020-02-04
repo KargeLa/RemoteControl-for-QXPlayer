@@ -32,9 +32,7 @@ class TrackListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         navigationController?.navigationBar.isHidden = true
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -66,21 +64,9 @@ extension TrackListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.selectionStyle = .none
-        
-        guard let trackInformation = trackList?.tracksInformation[indexPath.row],
-            let trackImage = UIImage(data: trackInformation.imageData) else { return cell }
-        
-        let cellImg: UIImageView = UIImageView(frame: CGRect(x: 0, y: 3, width: 40, height: 40))
-        cellImg.image = trackImage
-        cell.addSubview(cellImg)
-        
-        let cellLabel: UILabel = UILabel(frame: CGRect(x: 45, y: 0, width: 250, height: 40))
-        cellLabel.text = trackInformation.trackName
-        cellLabel.textColor = .white
-        cell.addSubview(cellLabel)
-        cell.backgroundColor = UIColor.clear
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? TrackTableViewCell else { return UITableViewCell() }
+    
+        cell.setCell(from: trackList?.tracksInformation[indexPath.row])
         
         return cell
     }
