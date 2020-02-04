@@ -67,6 +67,7 @@ extension TrackListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        cell.selectionStyle = .none
         
         guard let trackInformation = trackList?.tracksInformation[indexPath.row],
             let trackImage = UIImage(data: trackInformation.imageData) else { return cell }
@@ -75,8 +76,9 @@ extension TrackListViewController: UITableViewDelegate, UITableViewDataSource {
         cellImg.image = trackImage
         cell.addSubview(cellImg)
         
-        let cellLabel: UILabel = UILabel(frame: CGRect(x: 45, y: 0, width: 100, height: 40))
+        let cellLabel: UILabel = UILabel(frame: CGRect(x: 45, y: 0, width: 250, height: 40))
         cellLabel.text = trackInformation.trackName
+        cellLabel.textColor = .white
         cell.addSubview(cellLabel)
         cell.backgroundColor = UIColor.clear
         
@@ -84,7 +86,6 @@ extension TrackListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         guard let trackInformation = trackList?.tracksInformation[indexPath.row],
             let trackImage = UIImage(data: trackInformation.imageData) else { return }
         backgroundImage.image = trackImage
