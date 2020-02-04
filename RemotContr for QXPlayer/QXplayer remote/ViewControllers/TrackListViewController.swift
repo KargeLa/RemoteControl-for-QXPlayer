@@ -35,8 +35,8 @@ class TrackListViewController: UIViewController {
         navigationController?.navigationBar.isHidden = true
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
         guard let viewControllers = tabBarController?.viewControllers else { return }
         
