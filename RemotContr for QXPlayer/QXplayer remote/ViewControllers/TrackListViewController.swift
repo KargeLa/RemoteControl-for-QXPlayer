@@ -16,8 +16,7 @@ class TrackListViewController: UIViewController {
     
     //MARK: - Properties
     
-    var trackImageData: [Data]?
-    var trackListName: [String]? {
+    var trackList: TrackList? {
         didSet {
             tableView.reloadData()
         }
@@ -45,31 +44,39 @@ class TrackListViewController: UIViewController {
         
         for viewController in viewControllers {
             guard let vc = (viewController as? UINavigationController)?.topViewController as? SoundPlayerViewController else { return }
-            trackListName = vc.trackList?.tracksInformation.map { $0.trackName }
-            trackImageData = vc.trackList?.tracksInformation.map { $0.imageData }
+            trackList = vc.trackList
+            backgroundImage.image = setBackgroundImage(from: trackList)
             break
         }
+    }
+    
+    private func setBackgroundImage(from trackList: TrackList?) -> UIImage {
+        guard let trackList = trackList,
+            let image = UIImage(data: trackList.currentTrack.imageData) else { return UIImage() }
+        
+        return image
+        
     }
 }
 //MARK: - TableView DataSource & Delegate
 
 extension TrackListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return trackListName?.count ?? 0
+        return trackList?.tracksInformation.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         
-        guard let trackImage = UIImage(data: (trackImageData?[indexPath.row])!) else { return cell}
+        guard let trackInformation = trackList?.tracksInformation[indexPath.row],
+            let trackImage = UIImage(data: trackInformation.imageData) else { return cell }
         
-        var cellImg: UIImageView = UIImageView(frame: CGRect(x: 0, y: 3, width: 40, height: 40))
+        let cellImg: UIImageView = UIImageView(frame: CGRect(x: 0, y: 3, width: 40, height: 40))
         cellImg.image = trackImage
         cell.addSubview(cellImg)
-        backgroundImage.image = trackImage
         
-        var cellLabel: UILabel = UILabel(frame: CGRect(x: 45, y: 0, width: 100, height: 40))
-        cellLabel.text = trackListName?[indexPath.row] ?? " "
+        let cellLabel: UILabel = UILabel(frame: CGRect(x: 45, y: 0, width: 100, height: 40))
+        cellLabel.text = trackInformation.trackName
         cell.addSubview(cellLabel)
         cell.backgroundColor = UIColor.clear
         
@@ -78,10 +85,10 @@ extension TrackListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        guard let trackImage = UIImage(data: (trackImageData?[indexPath.row])!) else { return }
+        guard let trackInformation = trackList?.tracksInformation[indexPath.row],
+            let trackImage = UIImage(data: trackInformation.imageData) else { return }
         backgroundImage.image = trackImage
         
-        guard let currentTrackName = trackListName?[indexPath.row] else { return }
-        delegate?.didSelectRow(currentTrackName: currentTrackName)
+        delegate?.didSelectRow(currentTrackName: trackInformation.trackName)
     }
 }
