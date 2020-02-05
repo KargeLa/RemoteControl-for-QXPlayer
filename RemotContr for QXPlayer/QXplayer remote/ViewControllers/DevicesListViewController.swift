@@ -42,6 +42,16 @@ class DevicesListViewController: UIViewController {
             let service = service else { return }
         destinationVC._service = service
     }
+    
+    private func transferToAnotherControlelr(withKey key: NetService?) {
+        if let response = UserDefaults.standard.string(forKey: "repeatDevice") {
+            if response == key?.name {
+                guard let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Player") as? SoundPlayerViewController else { return }
+                vc._service = key
+                navigationController?.pushViewController(vc, animated: true)
+            }
+        }
+    }
 }
 
     //MARK: - UITableViewDelegate, UITableViewDataSource
@@ -55,6 +65,9 @@ extension DevicesListViewController: UITableViewDelegate, UITableViewDataSource 
         let cell = self.listTableView.dequeueReusableCell(withIdentifier: "listOfTheDevices", for: indexPath)
         let device = bonjourServerForDevicesList.devices[indexPath.row]
         cell.textLabel?.text = device.name
+        
+        transferToAnotherControlelr(withKey: device)
+        
         return cell
     }
     
@@ -62,6 +75,7 @@ extension DevicesListViewController: UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         if !bonjourServerForDevicesList.devices.isEmpty {
             service = bonjourServerForDevicesList.devices[indexPath.row]
+            UserDefaults.standard.set(service?.name, forKey: "repeatDevice")
         }
         
         return indexPath

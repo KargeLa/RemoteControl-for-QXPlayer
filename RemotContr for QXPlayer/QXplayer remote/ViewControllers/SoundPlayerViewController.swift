@@ -139,6 +139,7 @@ extension SoundPlayerViewController: BonjourServerDelegate {
 
             if devices.count == .zero {
                 navigationController?.popViewController(animated: true)
+                navigationController?.navigationBar.isHidden = false
             } else {
                 for device in devices {
                     if device == service {
@@ -150,8 +151,8 @@ extension SoundPlayerViewController: BonjourServerDelegate {
                         }
                     }
                 }
-                
                 navigationController?.popViewController(animated: true)
+                navigationController?.navigationBar.isHidden = false
             }
 
         }
