@@ -22,8 +22,13 @@ class SoundPlayerViewController: UIViewController {
     
     //MARK: - Properties
     
-    var trackList: TrackList?
     var _service: NetService?
+    var trackList: TrackList? {
+        didSet {
+            guard let currentTrack = trackList?.currentTrack else { return }
+            updateUI(trackInformation: currentTrack)
+        }
+    }
     
     private var bonjourServer: BonjourServer! {
         didSet {
@@ -78,14 +83,12 @@ class SoundPlayerViewController: UIViewController {
     }
     
     @IBAction func backwardAction(_ sender: UIButton) {
-        guard let prevTrack = trackList?.prevTrack() else { return }
-        updateUI(trackInformation: prevTrack)
+        guard let _ = trackList?.prevTrack() else { return }
         sendCommand(command: "back")
     }
     
     @IBAction func forwardAction(_ sender: UIButton) {
-        guard let nextTrack = trackList?.nextTrack() else { return }
-        updateUI(trackInformation: nextTrack)
+        guard let _ = trackList?.nextTrack() else { return }
         sendCommand(command: "forward")
     }
     
@@ -125,7 +128,6 @@ extension SoundPlayerViewController: BonjourServerDelegate {
         
         
         self.trackList = trackList
-        updateUI(trackInformation: trackList.currentTrack )
         trackListVC()?.delegate = self
     }
     
@@ -153,7 +155,6 @@ extension SoundPlayerViewController: SelectedDelegate {
     func changedTrack(currentTrackName: String) {
         
         if let trackInformation = trackList?.searchTrack(byTrackName: currentTrackName) {
-            updateUI(trackInformation: trackInformation)
             trackList?.currentTrack = trackInformation
             sendCommand(command: currentTrackName)
         }

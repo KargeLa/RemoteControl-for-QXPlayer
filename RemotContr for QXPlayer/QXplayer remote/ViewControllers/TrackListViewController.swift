@@ -101,8 +101,8 @@ class TrackListViewController: UIViewController {
     }
     
     @IBAction func nextButton(_ sender: Any) {
-        guard let nextTrack = trackList?.nextTrack() else { return }
-        delegate?.changedTrack(currentTrackName: nextTrack.trackName)
+        guard let currentTrack = trackList?.nextTrack() else { return }
+        delegate?.changedTrack(currentTrackName: currentTrack.trackName)
     }
     
     //MARK: - Supporting
