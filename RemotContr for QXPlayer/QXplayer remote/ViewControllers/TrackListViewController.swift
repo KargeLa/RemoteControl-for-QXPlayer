@@ -27,11 +27,34 @@ class TrackListViewController: UIViewController {
     
     @IBOutlet weak var backgroundImage: UIImageView!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var remoteControlStatusView: UIView!
+    @IBOutlet weak var trackImageView: UIImageView!
+    @IBOutlet weak var trackNameLabel: UILabel!
+    @IBOutlet weak var constraintOfHeightRemoteControlStatusView: NSLayoutConstraint!
+    @IBOutlet weak var constraintOfHeightVisualEffect: NSLayoutConstraint!
+    
+    //MARK: - Actions
+    
+    @IBAction func playButtonClicked(_ sender: Any) {
+    }
+    @IBAction func forwardButtonClicked(_ sender: Any) {
+    }
     
     //MARK: - LifeCyrcle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+//        constraintOfHeightRemoteControlStatusView.constant = 0
+//        constraintOfHeightVisualEffect.constant = 0
+//        remoteControlStatusView.isHidden = true
+        
+        trackImageView.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
+        trackImageView.layer.shadowOffset = CGSize(width: 0, height: 1)
+        trackImageView.layer.shadowOpacity = 1.0
+        trackImageView.layer.shadowRadius = 10.0
+        trackImageView.layer.masksToBounds = false
+        
         navigationController?.navigationBar.isHidden = true
     }
     
