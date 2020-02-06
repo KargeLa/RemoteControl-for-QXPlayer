@@ -9,7 +9,7 @@
 import UIKit
 
 protocol SelectedDelegate: class {
-    func didSelectRow(currentTrackName: String)
+    func changedTrack(currentTrackName: String)
 }
 
 class TrackListViewController: UIViewController {
@@ -18,42 +18,99 @@ class TrackListViewController: UIViewController {
     
     var trackList: TrackList? {
         didSet {
-            tableView.reloadData()
+            guard trackImageView != nil else { return }
+            guard let data = trackList?.currentTrack.imageData, let image = UIImage(data: data) else { return }
+            trackImageView.image = image
+            trackNameLabel.text = trackList?.currentTrack.trackName
+            
+            if backgroundImage != nil {
+                backgroundImage.image = image
+            }
         }
     }
+    
     weak var delegate: SelectedDelegate?
+    
+    var currentState: StatePlay = .notPlayningMusic {
+        didSet {
+            switch currentState {
+            case .playningMusic:
+                playOrStopButton.setImage(UIImage(named: "smallPause"), for: .normal)
+            case .notPlayningMusic:
+                playOrStopButton.setImage(UIImage(named: "smallPlay"), for: .normal)
+            }
+        }
+    }
+    
+    lazy var soundPlayerVC = { [weak self] () -> SoundPlayerViewController? in
+        guard let viewControllers = self?.tabBarController?.viewControllers else { return nil }
+        
+        for viewController in viewControllers {
+            if let vc = (viewController as? UINavigationController)?.topViewController as? SoundPlayerViewController {
+                return vc
+            }
+        }
+        return nil
+    }
     
     //MARK: - Outlets
     
+    @IBOutlet weak var playOrStopButton: UIButton!
     @IBOutlet weak var backgroundImage: UIImageView!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var heightPlayMusicConstraint: NSLayoutConstraint!
+    @IBOutlet weak var trackImageView: UIImageView!
+    @IBOutlet weak var trackNameLabel: UILabel!
     
     //MARK: - LifeCyrcle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.isHidden = true
+        trackImageView.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
+        trackImageView.layer.shadowOffset = CGSize(width: 0, height: 1)
+        trackImageView.layer.shadowOpacity = 1.0
+        trackImageView.layer.shadowRadius = 10.0
+        trackImageView.layer.masksToBounds = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        guard let viewControllers = tabBarController?.viewControllers else { return }
+        guard let soundPlayerVC = soundPlayerVC() else { return }
         
-        for viewController in viewControllers {
-            guard let vc = (viewController as? UINavigationController)?.topViewController as? SoundPlayerViewController else { return }
-            trackList = vc.trackList
-            backgroundImage.image = setBackgroundImage(from: trackList)
-            break
+        switch soundPlayerVC.currentState {
+        case .playningMusic:
+            heightPlayMusicConstraint.constant = 70
+            currentState = .playningMusic
+        case .notPlayningMusic:
+            heightPlayMusicConstraint.constant = 0
+            currentState = .notPlayningMusic
         }
+        
+        trackList = soundPlayerVC.trackList
+        tableView.reloadData() // need change
     }
     
-    private func setBackgroundImage(from trackList: TrackList?) -> UIImage {
-        guard let trackList = trackList,
-            let image = UIImage(data: trackList.currentTrack.imageData) else { return UIImage() }
-        
-        return image
-        
+    //MARK: - IBAction
+    
+    @IBAction func playButton(_ sender: UIButton) {
+        currentState = currentState.opposite
+        guard let soundPlayerVC = soundPlayerVC() else { return }
+        soundPlayerVC.playOrPauseAction()
+    }
+    
+    @IBAction func nextButton(_ sender: Any) {
+        guard let nextTrack = trackList?.nextTrack() else { return }
+        delegate?.changedTrack(currentTrackName: nextTrack.trackName)
+    }
+    
+    //MARK: - Supporting
+    
+    private func showPlayView() {
+        if heightPlayMusicConstraint.constant == 0 {
+            heightPlayMusicConstraint.constant = 70
+        }
     }
 }
 //MARK: - TableView DataSource & Delegate
@@ -72,10 +129,11 @@ extension TrackListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let trackInformation = trackList?.tracksInformation[indexPath.row],
-            let trackImage = UIImage(data: trackInformation.imageData) else { return }
-        backgroundImage.image = trackImage
+        guard let trackInformation = trackList?.tracksInformation[indexPath.row] else { return }
+       
+        trackList?.currentTrack = trackInformation
         
-        delegate?.didSelectRow(currentTrackName: trackInformation.trackName)
+        showPlayView()
+        delegate?.changedTrack(currentTrackName: trackInformation.trackName)
     }
 }
