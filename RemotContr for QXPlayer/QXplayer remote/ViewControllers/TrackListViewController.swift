@@ -19,12 +19,11 @@ class TrackListViewController: UIViewController {
     var trackList: TrackList? {
         didSet {
             guard trackImageView != nil else { return }
-            guard let data = trackList?.currentTrack.imageData, let image = UIImage(data: data) else { return }
-            trackImageView.image = image
+            trackImageView.setImage(with: trackList?.currentTrack.imageData)
             trackNameLabel.text = trackList?.currentTrack.trackName
             
             if backgroundImage != nil {
-                backgroundImage.image = image
+                backgroundImage.setImage(with: trackList?.currentTrack.imageData)
             }
         }
     }
@@ -84,6 +83,8 @@ class TrackListViewController: UIViewController {
         trackImageView.layer.masksToBounds = false
         
         playView.addGestureRecognizer(tapGestureRecognaizer)
+        playView.layer.cornerRadius = 10
+        playView.clipsToBounds = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -121,9 +122,9 @@ class TrackListViewController: UIViewController {
     
     private func showPlayView() {
         if heightPlayMusicConstraint.constant == 0 {
-            transitionAnimator = UIViewPropertyAnimator(duration: 0.5, dampingRatio: 0.5, animations: {
-                self.heightPlayMusicConstraint.constant = 70
-                self.view.layoutIfNeeded()
+            transitionAnimator = UIViewPropertyAnimator(duration: 0.5, dampingRatio: 0.5, animations: { [weak self] in
+                self?.heightPlayMusicConstraint.constant = 70
+                self?.view.layoutIfNeeded()
             })
             transitionAnimator.startAnimation()
         }
