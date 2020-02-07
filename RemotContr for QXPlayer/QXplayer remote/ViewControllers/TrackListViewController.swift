@@ -53,6 +53,14 @@ class TrackListViewController: UIViewController {
         return nil
     }
     
+    lazy private var tapGestureRecognaizer: UITapGestureRecognizer = {
+        let recognizer = UITapGestureRecognizer()
+        recognizer.addTarget(self, action: #selector(showSoundPlayer))
+        return recognizer
+    }()
+    
+    private var transitionAnimator = UIViewPropertyAnimator()
+    
     //MARK: - Outlets
     
     @IBOutlet weak var playOrStopButton: UIButton!
@@ -61,18 +69,21 @@ class TrackListViewController: UIViewController {
     @IBOutlet weak var heightPlayMusicConstraint: NSLayoutConstraint!
     @IBOutlet weak var trackImageView: UIImageView!
     @IBOutlet weak var trackNameLabel: UILabel!
+    @IBOutlet weak var playView: UIView!
     
     //MARK: - LifeCyrcle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+
         navigationController?.navigationBar.isHidden = true
         trackImageView.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
         trackImageView.layer.shadowOffset = CGSize(width: 0, height: 1)
         trackImageView.layer.shadowOpacity = 1.0
         trackImageView.layer.shadowRadius = 10.0
         trackImageView.layer.masksToBounds = false
+        
+        playView.addGestureRecognizer(tapGestureRecognaizer)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -110,8 +121,16 @@ class TrackListViewController: UIViewController {
     
     private func showPlayView() {
         if heightPlayMusicConstraint.constant == 0 {
-            heightPlayMusicConstraint.constant = 70
+            transitionAnimator = UIViewPropertyAnimator(duration: 0.5, dampingRatio: 0.5, animations: {
+                self.heightPlayMusicConstraint.constant = 70
+                self.view.layoutIfNeeded()
+            })
+            transitionAnimator.startAnimation()
         }
+    }
+    
+    @objc private func showSoundPlayer() {
+        tabBarController?.selectedIndex = 0
     }
 }
 //MARK: - TableView DataSource & Delegate

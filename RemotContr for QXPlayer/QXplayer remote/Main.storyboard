@@ -102,30 +102,37 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="wwy-E3-xdw">
-                                                    <rect key="frame" x="336" y="24" width="48" height="22"/>
+                                                <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wwy-E3-xdw">
+                                                    <rect key="frame" x="321" y="14.5" width="83" height="41"/>
                                                     <subviews>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bg4-Yw-Xfa">
-                                                            <rect key="frame" x="0.0" y="0.0" width="24" height="22"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="41.5" height="41"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" secondItem="Bg4-Yw-Xfa" secondAttribute="height" multiplier="1:1" id="X9Z-mY-8je"/>
+                                                            </constraints>
                                                             <state key="normal" image="smallPlay"/>
                                                             <connections>
                                                                 <action selector="playButton:" destination="G4p-3B-AD7" eventType="touchUpInside" id="a7L-PX-SQe"/>
                                                             </connections>
                                                         </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i30-dG-1fA">
-                                                            <rect key="frame" x="32" y="0.0" width="16" height="22"/>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i30-dG-1fA">
+                                                            <rect key="frame" x="41.5" y="0.0" width="41.5" height="41"/>
                                                             <state key="normal" image="smallForward"/>
                                                             <connections>
                                                                 <action selector="nextButton:" destination="G4p-3B-AD7" eventType="touchUpInside" id="ljb-pM-hIj"/>
                                                             </connections>
                                                         </button>
                                                     </subviews>
+                                                    <constraints>
+                                                        <constraint firstItem="i30-dG-1fA" firstAttribute="width" secondItem="Bg4-Yw-Xfa" secondAttribute="width" id="lw7-OH-ZiF"/>
+                                                    </constraints>
                                                 </stackView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="trailing" secondItem="wwy-E3-xdw" secondAttribute="trailing" constant="30" id="0kw-ex-RQ2"/>
+                                                <constraint firstAttribute="trailing" secondItem="wwy-E3-xdw" secondAttribute="trailing" constant="10" id="0kw-ex-RQ2"/>
                                                 <constraint firstItem="lwu-iI-Gqv" firstAttribute="centerY" secondItem="NLc-DD-8Fw" secondAttribute="centerY" id="1Sq-eL-aF5"/>
                                                 <constraint firstItem="lwu-iI-Gqv" firstAttribute="leading" secondItem="abs-4f-iQy" secondAttribute="trailing" constant="20" id="BpX-ma-gRd"/>
+                                                <constraint firstItem="Bg4-Yw-Xfa" firstAttribute="width" secondItem="NLc-DD-8Fw" secondAttribute="width" multiplier="0.1" id="FjJ-T9-LQq"/>
                                                 <constraint firstItem="wwy-E3-xdw" firstAttribute="centerY" secondItem="NLc-DD-8Fw" secondAttribute="centerY" id="c8c-pD-ngL"/>
                                                 <constraint firstItem="abs-4f-iQy" firstAttribute="centerY" secondItem="NLc-DD-8Fw" secondAttribute="centerY" id="y4A-JK-HDz"/>
                                                 <constraint firstItem="abs-4f-iQy" firstAttribute="leading" secondItem="NLc-DD-8Fw" secondAttribute="leading" constant="20" id="yMQ-La-taK"/>
@@ -169,6 +176,7 @@
                         <outlet property="backgroundImage" destination="Mme-X4-Rz2" id="Gn9-EV-dZy"/>
                         <outlet property="heightPlayMusicConstraint" destination="YRN-da-Atj" id="jRg-zf-uYB"/>
                         <outlet property="playOrStopButton" destination="Bg4-Yw-Xfa" id="NMi-0z-3PN"/>
+                        <outlet property="playView" destination="fKM-pC-3xx" id="UXP-zg-BUI"/>
                         <outlet property="tableView" destination="7b7-gO-RgU" id="Kak-VE-5ke"/>
                         <outlet property="trackImageView" destination="abs-4f-iQy" id="Xgg-oW-EDu"/>
                         <outlet property="trackNameLabel" destination="lwu-iI-Gqv" id="wCh-kH-Dm3"/>
