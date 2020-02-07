@@ -9,7 +9,7 @@
 import UIKit
 
 protocol SelectedDelegate: class {
-    func didSelectRow(currentTrackName: String)
+    func changedTrack(currentTrackName: String)
 }
 
 class TrackListViewController: UIViewController {
@@ -66,17 +66,7 @@ class TrackListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        constraintOfHeightRemoteControlStatusView.constant = 0
-//        constraintOfHeightVisualEffect.constant = 0
-//        remoteControlStatusView.isHidden = true
-        
-        trackImageView.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
-        trackImageView.layer.shadowOffset = CGSize(width: 0, height: 1)
-        trackImageView.layer.shadowOpacity = 1.0
-        trackImageView.layer.shadowRadius = 10.0
-        trackImageView.layer.masksToBounds = false
-        
+    
         navigationController?.navigationBar.isHidden = true
         trackImageView.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
         trackImageView.layer.shadowOffset = CGSize(width: 0, height: 1)
