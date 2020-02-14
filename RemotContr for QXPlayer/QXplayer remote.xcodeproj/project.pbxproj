@@ -13,6 +13,7 @@
 		1526677C23CF19D0005EED2A /* TrackInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526677B23CF19D0005EED2A /* TrackInformation.swift */; };
 		1572EBC023ED88A000DBCA53 /* UIImage + set.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1572EBBF23ED88A000DBCA53 /* UIImage + set.swift */; };
 		15A223E923ED4AFE00BE86AD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15A223E823ED4AFE00BE86AD /* Main.storyboard */; };
+		15ABB2A923F58F40007D60AB /* iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15ABB2A823F58F40007D60AB /* iPad.storyboard */; };
 		15E24A9223E986F000D51989 /* TrackTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E24A9123E986F000D51989 /* TrackTableViewCell.swift */; };
 		957626C323B6102F00696C7E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957626C223B6102F00696C7E /* AppDelegate.swift */; };
 		957626CC23B6103300696C7E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 957626CB23B6103300696C7E /* Assets.xcassets */; };
@@ -32,6 +33,7 @@
 		1526677B23CF19D0005EED2A /* TrackInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackInformation.swift; sourceTree = "<group>"; };
 		1572EBBF23ED88A000DBCA53 /* UIImage + set.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage + set.swift"; sourceTree = "<group>"; };
 		15A223E823ED4AFE00BE86AD /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		15ABB2A823F58F40007D60AB /* iPad.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = iPad.storyboard; sourceTree = "<group>"; };
 		15E24A9123E986F000D51989 /* TrackTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTableViewCell.swift; sourceTree = "<group>"; };
 		957626BF23B6102F00696C7E /* QXplayer remote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "QXplayer remote.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		957626C223B6102F00696C7E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 				15146C4C23D09096009780ED /* Extension&Helpers */,
 				957626D023B6103300696C7E /* Info.plist */,
 				15A223E823ED4AFE00BE86AD /* Main.storyboard */,
+				15ABB2A823F58F40007D60AB /* iPad.storyboard */,
 			);
 			path = "QXplayer remote";
 			sourceTree = "<group>";
@@ -208,6 +211,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15ABB2A923F58F40007D60AB /* iPad.storyboard in Resources */,
 				15A223E923ED4AFE00BE86AD /* Main.storyboard in Resources */,
 				957626CF23B6103300696C7E /* LaunchScreen.storyboard in Resources */,
 				957626CC23B6103300696C7E /* Assets.xcassets in Resources */,

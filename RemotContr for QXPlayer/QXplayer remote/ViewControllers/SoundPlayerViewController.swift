@@ -48,17 +48,32 @@ class SoundPlayerViewController: UIViewController {
     }
     
     lazy var trackListVC = { [weak self] () -> TrackListViewController? in
-        guard let viewControllers = self?.tabBarController?.viewControllers else { return nil }
-        
-        for viewController in viewControllers {
-            if let vc = (viewController as? UINavigationController)?.topViewController as? TrackListViewController {
-                return vc
+        if let viewControllers = self?.tabBarController?.viewControllers {
+            for viewController in viewControllers {
+                if let vc = (viewController as? UINavigationController)?.topViewController as? TrackListViewController {
+                    return vc
+                }
+            }
+        } else if let viewControllers = self?.children { // for ipad
+            for viewController in viewControllers {
+                if let vc = viewController as? TrackListViewController {
+                    return vc
+                }
             }
         }
         return nil
     }
     
     //MARK: - Life cycle
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        
+        if segue.identifier == "container" { // for only ipda
+            let trackListVc = segue.destination as! TrackListViewController
+            trackListVc.delegate = self
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -126,9 +141,8 @@ extension SoundPlayerViewController: BonjourServerDelegate {
         guard let data = body,
             let trackList = try? JSONDecoder().decode(TrackList.self, from: data) else { return }
         
-        
         self.trackList = trackList
-        trackListVC()?.delegate = self
+        trackListVC()?.trackList = trackList
     }
     
     func didChangeServices() {
@@ -144,6 +158,8 @@ extension SoundPlayerViewController: BonjourServerDelegate {
                          bonjourServer.connectTo(device)
                     }
                 }
+                navigationController?.popViewController(animated: true)
+                navigationController?.navigationBar.isHidden = false
             }
         }
     }

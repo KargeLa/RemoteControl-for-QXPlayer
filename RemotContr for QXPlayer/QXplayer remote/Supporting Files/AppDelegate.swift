@@ -12,13 +12,13 @@ import UIKit
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
- var window : UIWindow?
-    static var shared: AppDelegate {
-        return UIApplication.shared.delegate as! AppDelegate
-    }
-
-    
+    var window : UIWindow?
+   
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+        window = UIWindow()
+        window?.rootViewController = grubStoryboard().instantiateInitialViewController()
+        window?.makeKeyAndVisible()
         
         let tabBar = UITabBar.appearance()
         tabBar.backgroundImage = UIImage()
@@ -28,7 +28,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
-    // MARK: UISceneSession Lifecycle
+    private func grubStoryboard() -> UIStoryboard {
+        var storyboard = UIStoryboard()
+        
+        if UIDevice.current.model == "iPad" {
+            storyboard = UIStoryboard(name: "iPad", bundle: nil)
+        } else if UIDevice.current.model == "iPhone" {
+            storyboard = UIStoryboard(name: "Main", bundle: nil)
+        }
+        
+        return storyboard
+    }
 
 
 }

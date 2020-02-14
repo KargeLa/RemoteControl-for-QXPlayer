@@ -66,7 +66,7 @@ extension DevicesListViewController: UITableViewDelegate, UITableViewDataSource 
         let device = bonjourServerForDevicesList.devices[indexPath.row]
         cell.textLabel?.text = device.name
         
-        transferToAnotherControlelr(withKey: device)
+        //transferToAnotherControlelr(withKey: device)
         
         return cell
     }

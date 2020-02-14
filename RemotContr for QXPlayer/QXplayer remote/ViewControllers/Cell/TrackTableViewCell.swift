@@ -14,9 +14,8 @@ class TrackTableViewCell: UITableViewCell {
     @IBOutlet weak var trackName: UILabel!
     
     func setCell(from trackInformation: TrackInformation?) {
-        guard let trackInformation = trackInformation, let image = UIImage(data: trackInformation.imageData) else { return }
         
-        trackImageView.image = image
-        trackName.text = trackInformation.trackName
+        trackImageView.setImage(with: trackInformation?.imageData)
+        trackName.text = trackInformation?.trackName
     }
 }
