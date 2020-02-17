@@ -9,7 +9,7 @@
 import UIKit
 
 class SoundPlayerViewController: UIViewController {
-
+    
     //MARK: - Outlets
     
     @IBOutlet weak var nameFolderLabel: UILabel!
@@ -22,6 +22,7 @@ class SoundPlayerViewController: UIViewController {
     
     //MARK: - Properties
     
+    var commandFromTrackListVC: String = ""
     var _service: NetService?
     var trackList: TrackList? {
         didSet {
@@ -66,6 +67,13 @@ class SoundPlayerViewController: UIViewController {
     
     //MARK: - Life cycle
     
+    
+    func command() {
+        if commandFromTrackListVC == ""{
+            
+        }
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         
@@ -77,7 +85,7 @@ class SoundPlayerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         if let image = trackImageView.image {
             view.backgroundColor = UIColor(patternImage: image)
         }
@@ -89,7 +97,7 @@ class SoundPlayerViewController: UIViewController {
             bonjourServer.connectTo(service)
         }
     }
-  
+    
     //MARK: - Action
     
     @IBAction func playOrPauseAction() {
@@ -97,14 +105,25 @@ class SoundPlayerViewController: UIViewController {
         sendCommand(command: currentState.rawValue)
     }
     
-    @IBAction func backwardAction(_ sender: UIButton) {
+    func back() {
         guard let _ = trackList?.prevTrack() else { return }
         sendCommand(command: "back")
     }
     
-    @IBAction func forwardAction(_ sender: UIButton) {
+    @IBAction func backwardAction(_ sender: UIButton) {
+        //        guard let _ = trackList?.prevTrack() else { return }
+        //        sendCommand(command: "back")
+        back()
+    }
+    
+    func forward() {
         guard let _ = trackList?.nextTrack() else { return }
         sendCommand(command: "forward")
+    }
+    @IBAction func forwardAction(_ sender: UIButton) {
+        //        guard let _ = trackList?.nextTrack() else { return }
+        //        sendCommand(command: "forward")
+        forward()
     }
     
     //MARK: - Supporting
@@ -126,7 +145,7 @@ class SoundPlayerViewController: UIViewController {
     
 }
 
-    //MARK: - BonjourServerDelegate
+//MARK: - BonjourServerDelegate
 
 extension SoundPlayerViewController: BonjourServerDelegate {
     func connected() {
@@ -143,6 +162,7 @@ extension SoundPlayerViewController: BonjourServerDelegate {
         
         self.trackList = trackList
         trackListVC()?.trackList = trackList
+        trackListVC()?.delegate = self
     }
     
     func didChangeServices() {
@@ -155,7 +175,7 @@ extension SoundPlayerViewController: BonjourServerDelegate {
                     if bonjourServer.connectToServer(device) {
                         return
                     } else {
-                         bonjourServer.connectTo(device)
+                        bonjourServer.connectTo(device)
                     }
                 }
                 navigationController?.popViewController(animated: true)

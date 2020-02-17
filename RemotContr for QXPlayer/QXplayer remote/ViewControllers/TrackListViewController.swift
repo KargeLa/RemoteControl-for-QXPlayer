@@ -131,6 +131,11 @@ class TrackListViewController: UIViewController {
                 self?.heightPlayMusicConstraint.constant = 70
                 self?.view.layoutIfNeeded()
             })
+            if currentState == .notPlayningMusic {
+                currentState = currentState.opposite
+            } else {
+                return
+            }
             transitionAnimator.startAnimation()
         }
     }
