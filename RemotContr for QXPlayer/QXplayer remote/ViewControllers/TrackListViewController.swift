@@ -133,6 +133,8 @@ class TrackListViewController: UIViewController {
             })
             if currentState == .notPlayningMusic {
                 currentState = currentState.opposite
+                guard let soundPlayerVC = soundPlayerVC() else { return }
+                soundPlayerVC.playOrPauseAction()
             } else {
                 return
             }

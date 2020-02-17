@@ -22,7 +22,6 @@ class SoundPlayerViewController: UIViewController {
     
     //MARK: - Properties
     
-    var commandFromTrackListVC: String = ""
     var _service: NetService?
     var trackList: TrackList? {
         didSet {
@@ -67,13 +66,6 @@ class SoundPlayerViewController: UIViewController {
     
     //MARK: - Life cycle
     
-    
-    func command() {
-        if commandFromTrackListVC == ""{
-            
-        }
-    }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
         
@@ -102,18 +94,14 @@ class SoundPlayerViewController: UIViewController {
     
     @IBAction func playOrPauseAction() {
         currentState = currentState.opposite
+        
         sendCommand(command: currentState.rawValue)
     }
     
-    func back() {
+    @IBAction func backwardAction(_ sender: UIButton) {
         guard let _ = trackList?.prevTrack() else { return }
         sendCommand(command: "back")
-    }
-    
-    @IBAction func backwardAction(_ sender: UIButton) {
-        //        guard let _ = trackList?.prevTrack() else { return }
-        //        sendCommand(command: "back")
-        back()
+        
     }
     
     func forward() {
@@ -121,9 +109,8 @@ class SoundPlayerViewController: UIViewController {
         sendCommand(command: "forward")
     }
     @IBAction func forwardAction(_ sender: UIButton) {
-        //        guard let _ = trackList?.nextTrack() else { return }
-        //        sendCommand(command: "forward")
-        forward()
+        guard let _ = trackList?.nextTrack() else { return }
+        sendCommand(command: "forward")
     }
     
     //MARK: - Supporting
