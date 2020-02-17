@@ -9,16 +9,6 @@
 import UIKit
 
 class DevicesListViewController: UIViewController {
-    
-    //MARK: - Properties
-    
-    private var bonjourServerForDevicesList: BonjourServer! {
-        didSet {
-            bonjourServerForDevicesList.delegate = self
-        }
-    }
-    private var service: NetService?
-    
     //MARK: - Outlets
     
     @IBOutlet weak var listTableView: UITableView! {
@@ -28,76 +18,46 @@ class DevicesListViewController: UIViewController {
         }
     }
     
+    lazy private var appDelegate = AppDelegate.shared()
+    
     //MARK: - LifeCycle
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        bonjourServerForDevicesList = BonjourServer()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        NotificationCenter.default.addObserver(self, selector: #selector(changedTheNumberOfDevices(_: )), name: .changedTheNumberOfDevices, object: nil)
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        super.prepare(for: segue, sender: sender)
-        
-        guard let destinationVC = segue.destination as? SoundPlayerViewController,
-            let service = service else { return }
-        destinationVC._service = service
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self, name: .changedTheNumberOfDevices, object: nil)
     }
     
-    private func transferToAnotherControlelr(withKey key: NetService?) {
-        if let response = UserDefaults.standard.string(forKey: "repeatDevice") {
-            if response == key?.name {
-                guard let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "Player") as? SoundPlayerViewController else { return }
-                vc._service = key
-                navigationController?.pushViewController(vc, animated: true)
-            }
-        }
+    @objc func changedTheNumberOfDevices(_ notification: Notification) {
+        listTableView.reloadData()
     }
+    
+    
 }
 
     //MARK: - UITableViewDelegate, UITableViewDataSource
 
 extension DevicesListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return bonjourServerForDevicesList.devices.count
+        return appDelegate.bonjourServer.devices.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = self.listTableView.dequeueReusableCell(withIdentifier: "listOfTheDevices", for: indexPath)
-        let device = bonjourServerForDevicesList.devices[indexPath.row]
+        let device = appDelegate.bonjourServer.devices[indexPath.row]
         cell.textLabel?.text = device.name
-        
-        //transferToAnotherControlelr(withKey: device)
         
         return cell
     }
     
-    
-    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        if !bonjourServerForDevicesList.devices.isEmpty {
-            service = bonjourServerForDevicesList.devices[indexPath.row]
-            UserDefaults.standard.set(service?.name, forKey: "repeatDevice")
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if !appDelegate.bonjourServer.devices.isEmpty {
+            appDelegate.bonjourServer.connectTo(appDelegate.bonjourServer.devices[indexPath.row])
         }
-        
-        return indexPath
-    }
-}
-
-    //MARK: - BonjourServerDelegate
-
-extension DevicesListViewController: BonjourServerDelegate {
-    func connected() {
-        print("connected")
     }
     
-    func disconnected() {
-        print("disconnected")
-    }
-    
-    func handleBody(_ body: Data?) {
-        print("no body")
-    }
-    
-    func didChangeServices() {
-        listTableView.reloadData()
-    }
 }

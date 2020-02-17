@@ -22,17 +22,12 @@ class SoundPlayerViewController: UIViewController {
     
     //MARK: - Properties
     
-    var _service: NetService?
+    lazy private var appDelegate = AppDelegate.shared()
+    
     var trackList: TrackList? {
         didSet {
             guard let currentTrack = trackList?.currentTrack else { return }
             updateUI(trackInformation: currentTrack)
-        }
-    }
-    
-    private var bonjourServer: BonjourServer! {
-        didSet {
-            bonjourServer.delegate = self
         }
     }
     
@@ -66,28 +61,12 @@ class SoundPlayerViewController: UIViewController {
     
     //MARK: - Life cycle
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        super.prepare(for: segue, sender: sender)
-        
-        if segue.identifier == "container" { // for only ipda
-            let trackListVc = segue.destination as! TrackListViewController
-            trackListVc.delegate = self
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if let image = trackImageView.image {
-            view.backgroundColor = UIColor(patternImage: image)
-        }
-        
-        bonjourServer = BonjourServer()
+        NotificationCenter.default.addObserver(self, selector: #selector(dataCameFromTheServer(_: )), name: .dataCameFromTheServer, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(changedTheNumberOfDevices(_: )), name: .changedTheNumberOfDevices, object: nil)
         navigationController?.navigationBar.isHidden = true
-        
-        if let service = _service {
-            bonjourServer.connectTo(service)
-        }
     }
   
     //MARK: - Action
@@ -119,50 +98,36 @@ class SoundPlayerViewController: UIViewController {
     
     private func sendCommand(command: String) {
         if let data = command.data(using: .utf8) {
-            bonjourServer.send(data)
+            appDelegate.bonjourServer.send(data)
         }
     }
     
-    
-}
-
-    //MARK: - BonjourServerDelegate
-
-extension SoundPlayerViewController: BonjourServerDelegate {
-    func connected() {
-        print("connected")
+    @objc private func dataCameFromTheServer(_ notification: Notification) {
+        if let data = notification.userInfo?["data"] as? Data {
+            guard let trackList = try? JSONDecoder().decode(TrackList.self, from: data) else { return }
+            self.trackList = trackList
+            trackListVC()?.trackList = trackList
+            trackListVC()?.delegate = self
+        }
     }
     
-    func disconnected() {
-        print("disconnected")
-    }
-    
-    func handleBody(_ body: Data?) {
-        guard let data = body,
-            let trackList = try? JSONDecoder().decode(TrackList.self, from: data) else { return }
-        
-        self.trackList = trackList
-        trackListVC()?.trackList = trackList
-    }
-    
-    func didChangeServices() {
-        if let devices = bonjourServer.devices, let service = _service {
-            if devices.count == .zero {
-                navigationController?.popViewController(animated: true)
-                navigationController?.navigationBar.isHidden = false
-            } else {
-                if let device = devices.first(where: { $0 == service }) {
-                    if bonjourServer.connectToServer(device) {
-                        return
-                    } else {
-                         bonjourServer.connectTo(device)
-                    }
+    @objc private func changedTheNumberOfDevices(_ notification: Notification) {
+        if let devices = appDelegate.bonjourServer.devices {
+            devices.forEach { (device) in
+                if appDelegate.bonjourServer.connectToServer(device) {
+                    return
                 }
-                navigationController?.popViewController(animated: true)
-                navigationController?.navigationBar.isHidden = false
             }
+            navigationController?.popViewController(animated: true)
+            if let vc = navigationController?.topViewController as? DevicesListViewController {
+                vc.listTableView.reloadData()
+                appDelegate.bonjourServer = BonjourServer()
+            }
+            
+            navigationController?.navigationBar.isHidden = false
         }
     }
+    
 }
 
 //MARK: - SelectedDelegate
