@@ -22,7 +22,6 @@ class SoundPlayerViewController: UIViewController {
     
     //MARK: - Properties
     
-    var commandFromTrackListVC: String = ""
     var _service: NetService?
     var trackList: TrackList? {
         didSet {
