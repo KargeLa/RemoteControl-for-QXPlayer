@@ -64,7 +64,6 @@
 		15146C4B23D0907D009780ED /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				957626C223B6102F00696C7E /* AppDelegate.swift */,
 				957626CB23B6103300696C7E /* Assets.xcassets */,
 				957626CD23B6103300696C7E /* LaunchScreen.storyboard */,
 			);
@@ -79,6 +78,15 @@
 				1572EBBF23ED88A000DBCA53 /* UIImage + set.swift */,
 			);
 			path = "Extension&Helpers";
+			sourceTree = "<group>";
+		};
+		151531D823F6B67A00C149AF /* View */ = {
+			isa = PBXGroup;
+			children = (
+				15A223E823ED4AFE00BE86AD /* Main.storyboard */,
+				15ABB2A823F58F40007D60AB /* iPad.storyboard */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		15E24A9023E986DA00D51989 /* Cell */ = {
@@ -108,14 +116,14 @@
 		957626C123B6102F00696C7E /* QXplayer remote */ = {
 			isa = PBXGroup;
 			children = (
+				957626C223B6102F00696C7E /* AppDelegate.swift */,
 				FA23320123CF6FA20030911A /* Model */,
 				FA23320023CF6F850030911A /* ViewControllers */,
+				151531D823F6B67A00C149AF /* View */,
 				957626D623B6108C00696C7E /* NetCore */,
 				15146C4B23D0907D009780ED /* Supporting Files */,
 				15146C4C23D09096009780ED /* Extension&Helpers */,
 				957626D023B6103300696C7E /* Info.plist */,
-				15A223E823ED4AFE00BE86AD /* Main.storyboard */,
-				15ABB2A823F58F40007D60AB /* iPad.storyboard */,
 			);
 			path = "QXplayer remote";
 			sourceTree = "<group>";
