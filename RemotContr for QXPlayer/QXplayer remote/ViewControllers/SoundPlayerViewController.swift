@@ -64,7 +64,7 @@ class SoundPlayerViewController: UIViewController {
         return nil
     }
     
-    //MARK: - Life cycle
+    //MARK: - LifeCyrcle
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         super.prepare(for: segue, sender: sender)
@@ -90,7 +90,7 @@ class SoundPlayerViewController: UIViewController {
         }
     }
     
-    //MARK: - Action
+    //MARK: - Actions
     
     @IBAction func playOrPauseAction() {
         currentState = currentState.opposite
