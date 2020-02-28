@@ -144,12 +144,36 @@ extension SoundPlayerViewController: BonjourServerDelegate {
     }
     
     func handleBody(_ body: Data?) {
-        guard let data = body,
-            let trackList = try? JSONDecoder().decode(TrackList.self, from: data) else { return }
-        
-        self.trackList = trackList
-        trackListVC()?.trackList = trackList
-        trackListVC()?.delegate = self
+        guard let data = body else {
+            return
+        }
+        if let trackList = try? JSONDecoder().decode(TrackList.self, from: data) {
+            self.trackList = trackList
+            trackListVC()?.trackList = trackList
+            trackListVC()?.delegate = self
+        }
+        //        let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+        if let package = try? JSONDecoder().decode(Package.self, from: data),
+            let actionInt = package.action,
+            let action = ActionType(rawValue: actionInt) {
+            switch action {
+            case .play:
+                
+                break
+            case .pause:
+                
+                break
+            case .next:
+                
+                break
+            case .prev:
+                
+                break
+//            case .trackList:
+//                
+//                break
+            }
+        }
     }
     
     func didChangeServices() {

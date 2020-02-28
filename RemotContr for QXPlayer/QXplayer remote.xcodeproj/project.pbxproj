@@ -23,6 +23,7 @@
 		957626DF23B610AC00696C7E /* BonjourServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957626DC23B610AC00696C7E /* BonjourServer.swift */; };
 		FA2331FF23CF6F0E0030911A /* DevicesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2331FE23CF6F0E0030911A /* DevicesListViewController.swift */; };
 		FA33E3B123B9EB4900C6003E /* BonjourClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA33E3B023B9EB4900C6003E /* BonjourClient.swift */; };
+		FAD1049B2407C6B400DBAE06 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAD1049A2407C6B400DBAE06 /* Package.swift */; };
 		FAE40E3A23B63ABA00FE3E31 /* UIView+CoreKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE40E3923B63ABA00FE3E31 /* UIView+CoreKit.swift */; };
 /* End PBXBuildFile section */
 
@@ -47,6 +48,7 @@
 		957626DC23B610AC00696C7E /* BonjourServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BonjourServer.swift; sourceTree = "<group>"; };
 		FA2331FE23CF6F0E0030911A /* DevicesListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicesListViewController.swift; sourceTree = "<group>"; };
 		FA33E3B023B9EB4900C6003E /* BonjourClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BonjourClient.swift; sourceTree = "<group>"; };
+		FAD1049A2407C6B400DBAE06 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		FAE40E3923B63ABA00FE3E31 /* UIView+CoreKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+CoreKit.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -156,6 +158,7 @@
 			isa = PBXGroup;
 			children = (
 				1526677B23CF19D0005EED2A /* TrackInformation.swift */,
+				FAD1049A2407C6B400DBAE06 /* Package.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -236,6 +239,7 @@
 				957626DF23B610AC00696C7E /* BonjourServer.swift in Sources */,
 				957626DD23B610AC00696C7E /* GCDAsyncSocket.m in Sources */,
 				FA33E3B123B9EB4900C6003E /* BonjourClient.swift in Sources */,
+				FAD1049B2407C6B400DBAE06 /* Package.swift in Sources */,
 				15146C4923D086BC009780ED /* SoundPlayerViewController.swift in Sources */,
 				957626C323B6102F00696C7E /* AppDelegate.swift in Sources */,
 				FA2331FF23CF6F0E0030911A /* DevicesListViewController.swift in Sources */,
