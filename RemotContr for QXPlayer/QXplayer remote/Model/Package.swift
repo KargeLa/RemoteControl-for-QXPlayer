@@ -9,13 +9,12 @@
 import Foundation
 
 enum ActionType: Int {
-    case play/*0*/, pause/*1*/, next/*2*/, prev/*3*//*, trackList/*4*/*/
+    case play/*0*/, pause/*1*/, next/*2*/, prev/*3*/, volume/*4*/, time/*5*/
 }
 
 struct Package: Decodable {
     var currentTime: Int?
     var currentVolume: Float?
     var action: Int?
-//    var trackList: TrackList?
 }
 

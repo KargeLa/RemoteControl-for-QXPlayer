@@ -10,16 +10,6 @@ import UIKit
 
 class SoundPlayerViewController: UIViewController {
     
-    //MARK: - Outlets
-    
-    @IBOutlet weak var nameFolderLabel: UILabel!
-    @IBOutlet weak var trackImageView: UIImageView!
-    @IBOutlet weak var trackNameLabel: UILabel!
-    @IBOutlet weak var artistNameLabel: UILabel!
-    @IBOutlet weak var trackSlider: UISlider!
-    @IBOutlet weak var soundSlider: UISlider!
-    @IBOutlet weak var playOrPauseButton: UIButton!
-    
     //MARK: - Properties
     
     var _service: NetService?
@@ -64,6 +54,48 @@ class SoundPlayerViewController: UIViewController {
         return nil
     }
     
+    //MARK: - Outlets
+    
+    @IBOutlet weak var nameFolderLabel: UILabel!
+    @IBOutlet weak var trackImageView: UIImageView!
+    @IBOutlet weak var trackNameLabel: UILabel!
+    @IBOutlet weak var artistNameLabel: UILabel!
+    @IBOutlet weak var trackSlider: UISlider!
+    @IBOutlet weak var soundSlider: UISlider!
+    @IBOutlet weak var playOrPauseButton: UIButton!
+    @IBOutlet weak var currentTimeSlider: UISlider!
+    @IBOutlet weak var currentVolumeSlider: UISlider!
+    @IBOutlet weak var maxCurrentTimeLabel: UILabel!
+    @IBOutlet weak var currentTimeLabel: UILabel!
+    
+    //MARK: - Actions
+    
+    @IBAction func currentTimeChenged(_ sender: UISlider) {
+    }
+    
+    @IBAction func currentVolumeChanged(_ sender: UISlider) {
+    }
+    
+    @IBAction func playOrPauseAction() {
+        currentState = currentState.opposite
+        sendCommand(command: currentState.rawValue)
+    }
+    
+    @IBAction func backwardAction(_ sender: UIButton) {
+        guard let _ = trackList?.prevTrack() else { return }
+        sendCommand(command: "back")
+    }
+    
+    func forward() {
+        guard let _ = trackList?.nextTrack() else { return }
+        sendCommand(command: "forward")
+    }
+    
+    @IBAction func forwardAction(_ sender: UIButton) {
+        guard let _ = trackList?.nextTrack() else { return }
+        sendCommand(command: "forward")
+    }
+    
     //MARK: - LifeCyrcle
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -90,29 +122,6 @@ class SoundPlayerViewController: UIViewController {
         }
     }
     
-    //MARK: - Actions
-    
-    @IBAction func playOrPauseAction() {
-        currentState = currentState.opposite
-        
-        sendCommand(command: currentState.rawValue)
-    }
-    
-    @IBAction func backwardAction(_ sender: UIButton) {
-        guard let _ = trackList?.prevTrack() else { return }
-        sendCommand(command: "back")
-        
-    }
-    
-    func forward() {
-        guard let _ = trackList?.nextTrack() else { return }
-        sendCommand(command: "forward")
-    }
-    @IBAction func forwardAction(_ sender: UIButton) {
-        guard let _ = trackList?.nextTrack() else { return }
-        sendCommand(command: "forward")
-    }
-    
     //MARK: - Supporting
     
     private func updateUI(trackInformation: TrackInformation ) {
@@ -128,8 +137,6 @@ class SoundPlayerViewController: UIViewController {
             bonjourServer.send(data)
         }
     }
-    
-    
 }
 
 //MARK: - BonjourServerDelegate
@@ -158,20 +165,33 @@ extension SoundPlayerViewController: BonjourServerDelegate {
             let action = ActionType(rawValue: actionInt) {
             switch action {
             case .play:
-                
+                currentState = currentState.opposite
+                sendCommand(command: currentState.rawValue)
+                currentTimeSlider.value = Float(package.currentTime!)
+                currentTimeLabel.text = "\(package.currentTime!)"
                 break
             case .pause:
-                
+                currentState = currentState.opposite
+                sendCommand(command: currentState.rawValue)
+                currentTimeSlider.value = Float(package.currentTime!)
+                currentTimeLabel.text = "\(package.currentTime!)"
                 break
             case .next:
-                
+                guard let _ = trackList?.nextTrack() else { return }
+                sendCommand(command: "forward")
+                currentTimeSlider.value = Float(package.currentTime!)
+                currentTimeLabel.text = "\(package.currentTime!)"
                 break
             case .prev:
-                
+                guard let _ = trackList?.prevTrack() else { return }
+                sendCommand(command: "back")
+                currentTimeSlider.value = Float(package.currentTime!)
+                currentTimeLabel.text = "\(package.currentTime!)"
                 break
-//            case .trackList:
-//                
-//                break
+            case .volume:
+                break
+            case .time:
+                break
             }
         }
     }

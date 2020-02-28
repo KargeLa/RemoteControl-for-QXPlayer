@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bdY-hU-TQR">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="bdY-hU-TQR">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -328,8 +328,11 @@
                                             </label>
                                         </subviews>
                                     </stackView>
-                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.10000000149011612" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="jzY-ZP-KHX">
+                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.10000000149011612" minValue="0.0" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="jzY-ZP-KHX">
                                         <rect key="frame" x="-2" y="15.5" width="388" height="31"/>
+                                        <connections>
+                                            <action selector="currentTimeChenged:" destination="ozQ-zY-Fye" eventType="valueChanged" id="1Fu-41-Jmq"/>
+                                        </connections>
                                     </slider>
                                 </subviews>
                             </stackView>
@@ -376,6 +379,9 @@
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.10000000149011612" minValue="0.0" maxValue="1" minimumValueImage="speaker.3.fill" catalog="system" maximumValueImage="textformat.123" translatesAutoresizingMaskIntoConstraints="NO" id="IWo-cJ-ntr">
                                 <rect key="frame" x="66.5" y="677" width="281" height="31"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <action selector="currentVolumeChanged:" destination="ozQ-zY-Fye" eventType="valueChanged" id="NgZ-iO-bRc"/>
+                                </connections>
                             </slider>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dac 24/44.1 kHz Stereo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9yC-Ei-Jdh">
                                 <rect key="frame" x="140" y="715" width="134" height="14.5"/>
@@ -417,6 +423,10 @@
                     <navigationItem key="navigationItem" id="efn-Mb-5Xg"/>
                     <connections>
                         <outlet property="artistNameLabel" destination="4XJ-YK-uph" id="TOb-jf-BBl"/>
+                        <outlet property="currentTimeLabel" destination="PdP-Wf-CIy" id="oYm-T6-bBQ"/>
+                        <outlet property="currentTimeSlider" destination="jzY-ZP-KHX" id="toO-4H-8AQ"/>
+                        <outlet property="currentVolumeSlider" destination="IWo-cJ-ntr" id="Y7M-Kn-UWP"/>
+                        <outlet property="maxCurrentTimeLabel" destination="b2B-bp-t7W" id="Too-iC-Yhq"/>
                         <outlet property="nameFolderLabel" destination="ulG-fS-j8a" id="9gw-RR-tb3"/>
                         <outlet property="playOrPauseButton" destination="22u-ha-whH" id="DS9-ho-jFe"/>
                         <outlet property="soundSlider" destination="IWo-cJ-ntr" id="M5N-Cf-dUj"/>
