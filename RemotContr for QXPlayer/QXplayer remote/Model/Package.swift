@@ -13,6 +13,7 @@ enum ActionType: Int {
 }
 
 struct Package: Decodable {
+    var maxCurrentTime: Int?
     var currentTime: Int?
     var currentVolume: Float?
     var action: Int?

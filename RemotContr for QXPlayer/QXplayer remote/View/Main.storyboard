@@ -429,10 +429,8 @@
                         <outlet property="maxCurrentTimeLabel" destination="b2B-bp-t7W" id="Too-iC-Yhq"/>
                         <outlet property="nameFolderLabel" destination="ulG-fS-j8a" id="9gw-RR-tb3"/>
                         <outlet property="playOrPauseButton" destination="22u-ha-whH" id="DS9-ho-jFe"/>
-                        <outlet property="soundSlider" destination="IWo-cJ-ntr" id="M5N-Cf-dUj"/>
                         <outlet property="trackImageView" destination="UQI-4h-rkz" id="OYW-Ca-jLD"/>
                         <outlet property="trackNameLabel" destination="aeP-H5-izX" id="gqg-pP-Nfq"/>
-                        <outlet property="trackSlider" destination="jzY-ZP-KHX" id="iIH-YW-Cf2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ywB-cK-ONV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

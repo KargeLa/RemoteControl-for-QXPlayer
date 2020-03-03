@@ -12,6 +12,10 @@ class SoundPlayerViewController: UIViewController {
     
     //MARK: - Properties
     
+    var timer = Timer()
+    let formatter = DateComponentsFormatter()
+    var currentTime = 0
+    
     var _service: NetService?
     var trackList: TrackList? {
         didSet {
@@ -60,8 +64,6 @@ class SoundPlayerViewController: UIViewController {
     @IBOutlet weak var trackImageView: UIImageView!
     @IBOutlet weak var trackNameLabel: UILabel!
     @IBOutlet weak var artistNameLabel: UILabel!
-    @IBOutlet weak var trackSlider: UISlider!
-    @IBOutlet weak var soundSlider: UISlider!
     @IBOutlet weak var playOrPauseButton: UIButton!
     @IBOutlet weak var currentTimeSlider: UISlider!
     @IBOutlet weak var currentVolumeSlider: UISlider!
@@ -71,6 +73,8 @@ class SoundPlayerViewController: UIViewController {
     //MARK: - Actions
     
     @IBAction func currentTimeChenged(_ sender: UISlider) {
+        timeConvert(maxCurrentTime: Int(currentTimeSlider.value))
+        currentTime = Int(currentTimeSlider.value)
     }
     
     @IBAction func currentVolumeChanged(_ sender: UISlider) {
@@ -124,6 +128,32 @@ class SoundPlayerViewController: UIViewController {
     
     //MARK: - Supporting
     
+    private func showCurrentTimeLabel(maxCurrentTime: Int) {
+        self.currentTimeSlider.maximumValue = Float(maxCurrentTime)
+        self.currentTimeLabel.text = timeConvert(maxCurrentTime: currentTime)
+        self.currentTimeSlider.value = Float(currentTime)
+        currentTime += 1
+        print("now - \(currentTime)")
+        if currentTime == maxCurrentTime + 1 {
+            self.timer.invalidate()
+            self.currentTimeLabel.text = " "
+            self.maxCurrentTimeLabel.text = " "
+        }
+    }
+    private func timerForCurrentTimeLable(maxCurrentTime: Int) {
+        self.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { (_) in
+            self.showCurrentTimeLabel(maxCurrentTime: maxCurrentTime)
+        }
+        self.timer.fire()
+    }
+    
+    private func timeConvert (maxCurrentTime: Int) -> String {
+        formatter.allowedUnits = [.hour, .minute, .second]
+        formatter.unitsStyle = .positional
+        let strMaxCurrentTime = formatter.string(from: TimeInterval(maxCurrentTime))
+        return strMaxCurrentTime!
+    }
+    
     private func updateUI(trackInformation: TrackInformation ) {
         guard let trackImage = UIImage(data: trackInformation.imageData) else { return }
         trackNameLabel.text = trackInformation.trackName
@@ -137,7 +167,14 @@ class SoundPlayerViewController: UIViewController {
             bonjourServer.send(data)
         }
     }
+    private func sendData(json: [String: Any]) {
+        guard let commandData = try? JSONSerialization.data(withJSONObject: json, options: [.prettyPrinted]) else {
+            return
+        }
+        bonjourServer.send(commandData)
+    }
 }
+
 
 //MARK: - BonjourServerDelegate
 
@@ -167,14 +204,22 @@ extension SoundPlayerViewController: BonjourServerDelegate {
             case .play:
                 currentState = currentState.opposite
                 sendCommand(command: currentState.rawValue)
-                currentTimeSlider.value = Float(package.currentTime!)
-                currentTimeLabel.text = "\(package.currentTime!)"
+                //                currentTimeSlider.value = Float(package.currentTime!)
+                guard let maxCurrentTime = package.maxCurrentTime else {
+                    return
+                }
+                guard let currentTime = package.currentTime else {
+                    return
+                }
+                currentTimeLabel.text = timeConvert(maxCurrentTime: currentTime)
+                maxCurrentTimeLabel.text = timeConvert(maxCurrentTime: maxCurrentTime)
+                timerForCurrentTimeLable(maxCurrentTime: maxCurrentTime)
                 break
             case .pause:
                 currentState = currentState.opposite
                 sendCommand(command: currentState.rawValue)
-                currentTimeSlider.value = Float(package.currentTime!)
-                currentTimeLabel.text = "\(package.currentTime!)"
+                //                currentTimeSlider.value = Float(package.currentTime!)
+                //                currentTimeLabel.text = "\(package.currentTime!)"
                 break
             case .next:
                 guard let _ = trackList?.nextTrack() else { return }
