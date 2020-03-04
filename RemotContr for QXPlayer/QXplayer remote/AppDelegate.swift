@@ -65,7 +65,8 @@ extension AppDelegate: BonjourServerDelegate {
     }
     
     func handleBody(_ body: Data?) {
-        let dataDictionary = ["data": body]
+        guard let data = body else { return }
+        let dataDictionary: [AnyHashable: Any] = ["data": data]
         NotificationCenter.default.post(name: .dataCameFromTheServer, object: nil, userInfo: dataDictionary)
     }
     

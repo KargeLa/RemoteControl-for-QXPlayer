@@ -23,14 +23,18 @@ class SoundPlayerViewController: UIViewController {
     //MARK: - Properties
     
     lazy private var appDelegate = AppDelegate.shared()
+    private let playerManager = PlayerManager()
     
-    var trackList: TrackList? {
+    var currentTrack: TrackInformation? {
         didSet {
-            guard let currentTrack = trackList?.currentTrack else { return }
-            updateUI(trackInformation: currentTrack)
+            trackNameLabel.text = currentTrack?.trackName
+            artistNameLabel.text = currentTrack?.albumName
+            trackImageView.setImage(with: currentTrack?.imageData)
+            view.backgroundColor = UIColor(patternImage: trackImageView.image!)
+            trackListVC()?.currentTrack = currentTrack
         }
     }
-    
+        
     var currentState: StatePlay = .notPlayningMusic {
         didSet {
             switch currentState {
@@ -63,7 +67,8 @@ class SoundPlayerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        trackListVC()?.delegate = self
+        playerManager.delegate = self
         NotificationCenter.default.addObserver(self, selector: #selector(dataCameFromTheServer(_: )), name: .dataCameFromTheServer, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(changedTheNumberOfDevices(_: )), name: .changedTheNumberOfDevices, object: nil)
         navigationController?.navigationBar.isHidden = true
@@ -73,41 +78,21 @@ class SoundPlayerViewController: UIViewController {
     
     @IBAction func playOrPauseAction() {
         currentState = currentState.opposite
-        sendCommand(command: currentState.rawValue)
+        sendDataToComputerPlayer(command: currentState.rawValue)
     }
     
-    @IBAction func backwardAction(_ sender: UIButton) {
-        guard let _ = trackList?.prevTrack() else { return }
-        sendCommand(command: "back")
+    @IBAction func backwardAction() {
+        sendDataToComputerPlayer(command: "back")
     }
-    
-    @IBAction func forwardAction(_ sender: UIButton) {
-        guard let _ = trackList?.nextTrack() else { return }
-        sendCommand(command: "forward")
+    @IBAction func forwardAction() {
+        sendDataToComputerPlayer(command: "forward")
     }
     
     //MARK: - Supporting
     
-    private func updateUI(trackInformation: TrackInformation ) {
-        guard let trackImage = UIImage(data: trackInformation.imageData) else { return }
-        trackNameLabel.text = trackInformation.trackName
-        artistNameLabel.text = trackInformation.albumName
-        trackImageView.image = trackImage
-        view.backgroundColor = UIColor(patternImage: trackImage)
-    }
-    
-    private func sendCommand(command: String) {
-        if let data = command.data(using: .utf8) {
-            appDelegate.bonjourServer.send(data)
-        }
-    }
-    
     @objc private func dataCameFromTheServer(_ notification: Notification) {
         if let data = notification.userInfo?["data"] as? Data {
-            guard let trackList = try? JSONDecoder().decode(TrackList.self, from: data) else { return }
-            self.trackList = trackList
-            trackListVC()?.trackList = trackList
-            trackListVC()?.delegate = self
+            playerManager.handleData(data: data)
         }
     }
     
@@ -128,17 +113,58 @@ class SoundPlayerViewController: UIViewController {
         }
     }
     
+    private func sendDataToComputerPlayer(volume: Int? = nil,
+                                          metaData: TrackInformation? = nil,
+                                          command: String? = nil,
+                                          currentTime: Int? = nil,
+                                          listTrack: [String]? = nil,
+                                          currentTrackName: String? = nil) {
+        
+        let playerData = PlayerData(volume: volume,
+                                    metaData: metaData,
+                                    command: command,
+                                    currentTime: currentTime,
+                                    listTrack: listTrack,
+                                    currentTrackName: currentTrackName)
+        
+        guard let data = playerData.json else { return }
+        appDelegate.bonjourServer.send(data)
+    }
+    
 }
 
 //MARK: - SelectedDelegate
 
 extension SoundPlayerViewController: SelectedDelegate {
     func changedTrack(currentTrackName: String) {
-        
-        if let trackInformation = trackList?.searchTrack(byTrackName: currentTrackName) {
-            trackList?.currentTrack = trackInformation
-            sendCommand(command: currentTrackName)
+        sendDataToComputerPlayer(currentTrackName: currentTrackName)
+    }
+}
+
+extension SoundPlayerViewController: DataActionsDelegate {
+    func dataAction(volume: Int) {
+        soundSlider.value = Float(volume)
+    }
+    
+    func dataAction(metaData: TrackInformation) {
+        currentTrack = metaData
+    }
+    
+    func dataAction(command: String) {
+        switch command {
+        case StatePlay.notPlayningMusic.rawValue: currentState = .notPlayningMusic
+        case StatePlay.playningMusic.rawValue: currentState = .playningMusic
+        default:
+            print("defaultCase")
         }
+    }
+    
+    func dataAction(currentTime: Int) {
+        trackSlider.value = Float(currentTime)
+    }
+    
+    func dataAction(listTrack: [String]) {
+        trackListVC()?.listTracks = listTrack
     }
     
     

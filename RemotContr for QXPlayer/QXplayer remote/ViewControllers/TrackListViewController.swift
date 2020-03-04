@@ -16,21 +16,14 @@ class TrackListViewController: UIViewController {
     
     //MARK: - Properties
     
-    var trackList: TrackList? {
+    var listTracks: [String]?
+    var currentTrack: TrackInformation? {
         didSet {
-            if oldValue?.tracksInformation.first?.trackName != trackList?.tracksInformation.first?.trackName {
-                tableView?.reloadData()
-            }
-            guard trackImageView != nil else { return }
-            trackImageView.setImage(with: trackList?.currentTrack.imageData)
-            trackNameLabel.text = trackList?.currentTrack.trackName
-            
-            if backgroundImage != nil {
-                backgroundImage.setImage(with: trackList?.currentTrack.imageData)
-            }
+            backgroundImage?.setImage(with: currentTrack?.imageData)
+            trackImageView?.setImage(with: currentTrack?.imageData)
+            trackNameLabel?.text = currentTrack?.trackName
         }
     }
-    
     weak var delegate: SelectedDelegate?
     
     var currentState: StatePlay = .notPlayningMusic {
@@ -44,7 +37,7 @@ class TrackListViewController: UIViewController {
         }
     }
     
-    lazy var soundPlayerVC = { [weak self] () -> SoundPlayerViewController? in
+    lazy private var soundPlayerVC = { [weak self] () -> SoundPlayerViewController? in
         
         if let viewControllers = self?.tabBarController?.viewControllers {
             for viewController in viewControllers {
@@ -77,7 +70,7 @@ class TrackListViewController: UIViewController {
     @IBOutlet weak var trackNameLabel: UILabel!
     @IBOutlet weak var playView: UIView!
     
-    //MARK: - LifeCyrcle
+    //MARK: - LifeCycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -92,22 +85,23 @@ class TrackListViewController: UIViewController {
         playView?.addGestureRecognizer(tapGestureRecognaizer)
         playView?.layer.cornerRadius = 10
         playView?.clipsToBounds = true
+        currentTrack = soundPlayerVC()?.currentTrack
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        guard let soundPlayerVC = soundPlayerVC() else { return }
-        
-        switch soundPlayerVC.currentState {
+        switch soundPlayerVC()?.currentState {
         case .playningMusic:
             heightPlayMusicConstraint?.constant = 70
             currentState = .playningMusic
         case .notPlayningMusic:
             heightPlayMusicConstraint?.constant = 0
             currentState = .notPlayningMusic
+        case .none:
+            print(#function)
         }
-        trackList?.currentTrack = soundPlayerVC.trackList!.currentTrack
+        
     }
     
     //MARK: - IBAction
@@ -119,8 +113,8 @@ class TrackListViewController: UIViewController {
     }
     
     @IBAction func nextButton(_ sender: Any) {
-        guard let currentTrack = trackList?.nextTrack() else { return }
-        delegate?.changedTrack(currentTrackName: currentTrack.trackName)
+         guard let soundPlayerVC = soundPlayerVC() else { return }
+         soundPlayerVC.forwardAction()
     }
     
     //MARK: - Supporting
@@ -139,27 +133,24 @@ class TrackListViewController: UIViewController {
         tabBarController?.selectedIndex = 0
     }
 }
+
 //MARK: - TableView DataSource & Delegate
 
 extension TrackListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return trackList?.tracksInformation.count ?? 0
+        return listTracks?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? TrackTableViewCell else { return UITableViewCell() }
     
-        cell.setCell(from: trackList?.tracksInformation[indexPath.row])
+        cell.setCell(fromList: listTracks![indexPath.row])
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let trackInformation = trackList?.tracksInformation[indexPath.row] else { return }
-       
-        trackList?.currentTrack = trackInformation
-        
         showPlayView()
-        delegate?.changedTrack(currentTrackName: trackInformation.trackName)
+        delegate?.changedTrack(currentTrackName: listTracks![indexPath.row])
     }
 }

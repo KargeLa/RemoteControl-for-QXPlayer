@@ -14,6 +14,7 @@
 		1526677C23CF19D0005EED2A /* TrackInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526677B23CF19D0005EED2A /* TrackInformation.swift */; };
 		1572EBC023ED88A000DBCA53 /* UIImage + set.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1572EBBF23ED88A000DBCA53 /* UIImage + set.swift */; };
 		15A223E923ED4AFE00BE86AD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15A223E823ED4AFE00BE86AD /* Main.storyboard */; };
+		15AA81EC24092D170036B78A /* DataReception.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AA81EB24092D170036B78A /* DataReception.swift */; };
 		15ABB2A923F58F40007D60AB /* iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15ABB2A823F58F40007D60AB /* iPad.storyboard */; };
 		15E24A9223E986F000D51989 /* TrackTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15E24A9123E986F000D51989 /* TrackTableViewCell.swift */; };
 		957626C323B6102F00696C7E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957626C223B6102F00696C7E /* AppDelegate.swift */; };
@@ -35,6 +36,7 @@
 		1526677B23CF19D0005EED2A /* TrackInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackInformation.swift; sourceTree = "<group>"; };
 		1572EBBF23ED88A000DBCA53 /* UIImage + set.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage + set.swift"; sourceTree = "<group>"; };
 		15A223E823ED4AFE00BE86AD /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		15AA81EB24092D170036B78A /* DataReception.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataReception.swift; sourceTree = "<group>"; };
 		15ABB2A823F58F40007D60AB /* iPad.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = iPad.storyboard; sourceTree = "<group>"; };
 		15E24A9123E986F000D51989 /* TrackTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackTableViewCell.swift; sourceTree = "<group>"; };
 		957626BF23B6102F00696C7E /* QXplayer remote.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "QXplayer remote.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -91,6 +93,14 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		15AA81EA24092CE60036B78A /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				15AA81EB24092D170036B78A /* DataReception.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
 		15E24A9023E986DA00D51989 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -120,6 +130,7 @@
 			children = (
 				957626C223B6102F00696C7E /* AppDelegate.swift */,
 				FA23320123CF6FA20030911A /* Model */,
+				15AA81EA24092CE60036B78A /* Service */,
 				FA23320023CF6F850030911A /* ViewControllers */,
 				151531D823F6B67A00C149AF /* View */,
 				957626D623B6108C00696C7E /* NetCore */,
@@ -240,6 +251,7 @@
 				957626DD23B610AC00696C7E /* GCDAsyncSocket.m in Sources */,
 				FA33E3B123B9EB4900C6003E /* BonjourClient.swift in Sources */,
 				151F600623FABDF6006D326C /* NotificationName.swift in Sources */,
+				15AA81EC24092D170036B78A /* DataReception.swift in Sources */,
 				15146C4923D086BC009780ED /* SoundPlayerViewController.swift in Sources */,
 				957626C323B6102F00696C7E /* AppDelegate.swift in Sources */,
 				FA2331FF23CF6F0E0030911A /* DevicesListViewController.swift in Sources */,

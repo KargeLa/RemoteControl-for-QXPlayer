@@ -346,7 +346,7 @@
                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" image="backward.fill" catalog="system"/>
                                         <connections>
-                                            <action selector="backwardAction:" destination="ozQ-zY-Fye" eventType="touchUpInside" id="Dd0-xP-gip"/>
+                                            <action selector="forwardAction" destination="ozQ-zY-Fye" eventType="touchUpInside" id="OWe-XH-UPP"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="22u-ha-whH">
@@ -363,7 +363,7 @@
                                         <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <state key="normal" image="forward.fill" catalog="system"/>
                                         <connections>
-                                            <action selector="forwardAction:" destination="ozQ-zY-Fye" eventType="touchUpInside" id="bVp-H7-Uta"/>
+                                            <action selector="backwardAction" destination="ozQ-zY-Fye" eventType="touchUpInside" id="yRa-CC-Nir"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EGM-dZ-XNS">
