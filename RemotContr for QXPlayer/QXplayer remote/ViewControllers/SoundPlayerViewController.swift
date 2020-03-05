@@ -12,17 +12,17 @@ class SoundPlayerViewController: UIViewController {
 
     //MARK: - Outlets
     
-    @IBOutlet weak var nameFolderLabel: UILabel!
-    @IBOutlet weak var trackImageView: UIImageView!
-    @IBOutlet weak var trackNameLabel: UILabel!
-    @IBOutlet weak var artistNameLabel: UILabel!
-    @IBOutlet weak var trackSlider: UISlider!
-    @IBOutlet weak var soundSlider: UISlider!
-    @IBOutlet weak var playOrPauseButton: UIButton!
+    @IBOutlet private weak var nameFolderLabel: UILabel!
+    @IBOutlet private weak var trackImageView: UIImageView!
+    @IBOutlet private weak var trackNameLabel: UILabel!
+    @IBOutlet private weak var artistNameLabel: UILabel!
+    @IBOutlet private weak var trackSlider: UISlider!
+    @IBOutlet private weak var soundSlider: UISlider!
+    @IBOutlet private weak var playOrPauseButton: UIButton!
     
     //MARK: - Properties
     
-    lazy private var appDelegate = AppDelegate.shared()
+    private lazy var appDelegate = AppDelegate.shared()
     private let playerManager = PlayerManager()
     
     var currentTrack: TrackInformation? {
@@ -46,7 +46,7 @@ class SoundPlayerViewController: UIViewController {
         }
     }
     
-    lazy var trackListVC = { [weak self] () -> TrackListViewController? in
+    private lazy var trackListVC = { [weak self] () -> TrackListViewController? in
         if let viewControllers = self?.tabBarController?.viewControllers {
             for viewController in viewControllers {
                 if let vc = (viewController as? UINavigationController)?.topViewController as? TrackListViewController {
@@ -113,19 +113,9 @@ class SoundPlayerViewController: UIViewController {
         }
     }
     
-    private func sendDataToComputerPlayer(volume: Int? = nil,
-                                          metaData: TrackInformation? = nil,
-                                          command: String? = nil,
-                                          currentTime: Int? = nil,
-                                          listTrack: [String]? = nil,
-                                          currentTrackName: String? = nil) {
+    private func sendDataToComputerPlayer(volume: Int? = nil, metaData: TrackInformation? = nil, command: String? = nil, currentTime: Int? = nil, listTrack: [String]? = nil, currentTrackName: String? = nil) {
         
-        let playerData = PlayerData(volume: volume,
-                                    metaData: metaData,
-                                    command: command,
-                                    currentTime: currentTime,
-                                    listTrack: listTrack,
-                                    currentTrackName: currentTrackName)
+        let playerData = PlayerData(volume: volume, metaData: metaData, command: command, currentTime: currentTime, listTrack: listTrack, currentTrackName: currentTrackName)
         
         guard let data = playerData.json else { return }
         appDelegate.bonjourServer.send(data)
@@ -141,9 +131,9 @@ extension SoundPlayerViewController: SelectedDelegate {
     }
 }
 
-//MARK: - DataActionsDelegate
+//MARK: - PlayerDataActionsDelegate
 
-extension SoundPlayerViewController: DataActionsDelegate {
+extension SoundPlayerViewController: PlayerDataActionsDelegate {
     func dataAction(volume: Int) {
         soundSlider.value = Float(volume)
     }

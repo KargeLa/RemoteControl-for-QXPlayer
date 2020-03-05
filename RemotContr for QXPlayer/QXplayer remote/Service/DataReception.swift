@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol DataActionsDelegate: class {
+protocol PlayerDataActionsDelegate: class {
     func dataAction(volume: Int)
     func dataAction(metaData: TrackInformation)
     func dataAction(command: String)
@@ -17,7 +17,7 @@ protocol DataActionsDelegate: class {
 }
 
 class PlayerManager {
-    weak var delegate: DataActionsDelegate?
+    weak var delegate: PlayerDataActionsDelegate?
     
     func handleData(data: Data) {
         guard let playerData = try? JSONDecoder().decode(PlayerData.self, from: data) else { return }

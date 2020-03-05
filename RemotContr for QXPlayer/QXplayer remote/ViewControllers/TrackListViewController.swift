@@ -21,6 +21,7 @@ class TrackListViewController: UIViewController {
             tableView?.reloadData()
         }
     }
+    
     var currentTrack: TrackInformation? {
         didSet {
             backgroundImage?.setImage(with: currentTrack?.imageData)
@@ -41,7 +42,7 @@ class TrackListViewController: UIViewController {
         }
     }
     
-    lazy private var soundPlayerVC = { [weak self] () -> SoundPlayerViewController? in
+    private lazy var soundPlayerVC = { [weak self] () -> SoundPlayerViewController? in
         
         if let viewControllers = self?.tabBarController?.viewControllers {
             for viewController in viewControllers {
@@ -56,7 +57,7 @@ class TrackListViewController: UIViewController {
         return nil
     }
     
-    lazy private var tapGestureRecognaizer: UITapGestureRecognizer = {
+    private lazy var tapGestureRecognaizer: UITapGestureRecognizer = {
         let recognizer = UITapGestureRecognizer()
         recognizer.addTarget(self, action: #selector(showSoundPlayer))
         return recognizer
@@ -66,13 +67,13 @@ class TrackListViewController: UIViewController {
     
     //MARK: - Outlets
     
-    @IBOutlet weak var playOrStopButton: UIButton!
-    @IBOutlet weak var backgroundImage: UIImageView!
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var heightPlayMusicConstraint: NSLayoutConstraint!
-    @IBOutlet weak var trackImageView: UIImageView!
-    @IBOutlet weak var trackNameLabel: UILabel!
-    @IBOutlet weak var playView: UIView!
+    @IBOutlet private weak var playOrStopButton: UIButton!
+    @IBOutlet private weak var backgroundImage: UIImageView!
+    @IBOutlet private weak var tableView: UITableView!
+    @IBOutlet private weak var heightPlayMusicConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var trackImageView: UIImageView!
+    @IBOutlet private weak var trackNameLabel: UILabel!
+    @IBOutlet private weak var playView: UIView!
     
     //MARK: - LifeCycle
     
