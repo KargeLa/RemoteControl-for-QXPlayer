@@ -25,11 +25,11 @@ class SoundPlayerViewController: UIViewController {
     private lazy var appDelegate = AppDelegate.shared()
     private let playerManager = PlayerManager()
     
-    var currentTrack: TrackInformation? {
+    var currentTrack: MetaData? {
         didSet {
-            trackNameLabel.text = currentTrack?.trackName
+            trackNameLabel.text = currentTrack?.title
             artistNameLabel.text = currentTrack?.albumName
-            trackImageView.setImage(with: currentTrack?.imageData)
+            trackImageView.setImage(with: currentTrack?.albumArt)
             view.backgroundColor = UIColor(patternImage: trackImageView.image!)
             trackListVC()?.currentTrack = currentTrack
         }
@@ -84,9 +84,19 @@ class SoundPlayerViewController: UIViewController {
     @IBAction func backwardAction() {
         sendDataToComputerPlayer(command: "back")
     }
+    
     @IBAction func forwardAction() {
         sendDataToComputerPlayer(command: "forward")
     }
+    
+    @IBAction func trackDurationAction(_ sender: UISlider) {
+        sendDataToComputerPlayer(currentTime: sender.value)
+    }
+    
+    @IBAction func volumeAction(_ sender: UISlider) {
+        sendDataToComputerPlayer(volume: sender.value)
+    }
+    
     
     //MARK: - Supporting
     
@@ -113,7 +123,7 @@ class SoundPlayerViewController: UIViewController {
         }
     }
     
-    private func sendDataToComputerPlayer(volume: Int? = nil, metaData: TrackInformation? = nil, command: String? = nil, currentTime: Int? = nil, listTrack: [String]? = nil, currentTrackName: String? = nil) {
+    private func sendDataToComputerPlayer(volume: Float? = nil, metaData: MetaData? = nil, command: String? = nil, currentTime: Float? = nil, listTrack: [String]? = nil, currentTrackName: String? = nil) {
         
         let playerData = PlayerData(volume: volume, metaData: metaData, command: command, currentTime: currentTime, listTrack: listTrack, currentTrackName: currentTrackName)
         
@@ -134,11 +144,11 @@ extension SoundPlayerViewController: SelectedDelegate {
 //MARK: - PlayerDataActionsDelegate
 
 extension SoundPlayerViewController: PlayerDataActionsDelegate {
-    func dataAction(volume: Int) {
-        soundSlider.value = Float(volume)
+    func dataAction(volume: Float) {
+        soundSlider.value = volume
     }
     
-    func dataAction(metaData: TrackInformation) {
+    func dataAction(metaData: MetaData) {
         currentTrack = metaData
     }
     
@@ -151,8 +161,8 @@ extension SoundPlayerViewController: PlayerDataActionsDelegate {
         }
     }
     
-    func dataAction(currentTime: Int) {
-        trackSlider.value = Float(currentTime)
+    func dataAction(currentTime: Float) {
+        trackSlider.value = currentTime
     }
     
     func dataAction(listTrack: [String]) {

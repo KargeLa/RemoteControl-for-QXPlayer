@@ -11,7 +11,7 @@
 		151CCA7B23E2FC5B00A30D4F /* TrackListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151CCA7A23E2FC5B00A30D4F /* TrackListViewController.swift */; };
 		151F600623FABDF6006D326C /* NotificationName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 151F600523FABDF6006D326C /* NotificationName.swift */; };
 		1520E5F723EC464A00363377 /* StatePlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1520E5F623EC464A00363377 /* StatePlay.swift */; };
-		1526677C23CF19D0005EED2A /* TrackInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526677B23CF19D0005EED2A /* TrackInformation.swift */; };
+		1526677C23CF19D0005EED2A /* MetaData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1526677B23CF19D0005EED2A /* MetaData.swift */; };
 		1572EBC023ED88A000DBCA53 /* UIImage + set.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1572EBBF23ED88A000DBCA53 /* UIImage + set.swift */; };
 		15A223E923ED4AFE00BE86AD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15A223E823ED4AFE00BE86AD /* Main.storyboard */; };
 		15AA81EC24092D170036B78A /* DataReception.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15AA81EB24092D170036B78A /* DataReception.swift */; };
@@ -25,7 +25,6 @@
 		957626DF23B610AC00696C7E /* BonjourServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 957626DC23B610AC00696C7E /* BonjourServer.swift */; };
 		FA2331FF23CF6F0E0030911A /* DevicesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA2331FE23CF6F0E0030911A /* DevicesListViewController.swift */; };
 		FA33E3B123B9EB4900C6003E /* BonjourClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA33E3B023B9EB4900C6003E /* BonjourClient.swift */; };
-		FAE40E3A23B63ABA00FE3E31 /* UIView+CoreKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAE40E3923B63ABA00FE3E31 /* UIView+CoreKit.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,7 +32,7 @@
 		151CCA7A23E2FC5B00A30D4F /* TrackListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackListViewController.swift; sourceTree = "<group>"; };
 		151F600523FABDF6006D326C /* NotificationName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationName.swift; sourceTree = "<group>"; };
 		1520E5F623EC464A00363377 /* StatePlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatePlay.swift; sourceTree = "<group>"; };
-		1526677B23CF19D0005EED2A /* TrackInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackInformation.swift; sourceTree = "<group>"; };
+		1526677B23CF19D0005EED2A /* MetaData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetaData.swift; sourceTree = "<group>"; };
 		1572EBBF23ED88A000DBCA53 /* UIImage + set.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage + set.swift"; sourceTree = "<group>"; };
 		15A223E823ED4AFE00BE86AD /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		15AA81EB24092D170036B78A /* DataReception.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataReception.swift; sourceTree = "<group>"; };
@@ -51,7 +50,6 @@
 		957626DC23B610AC00696C7E /* BonjourServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BonjourServer.swift; sourceTree = "<group>"; };
 		FA2331FE23CF6F0E0030911A /* DevicesListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicesListViewController.swift; sourceTree = "<group>"; };
 		FA33E3B023B9EB4900C6003E /* BonjourClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BonjourClient.swift; sourceTree = "<group>"; };
-		FAE40E3923B63ABA00FE3E31 /* UIView+CoreKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+CoreKit.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,7 +75,6 @@
 		15146C4C23D09096009780ED /* Extension&Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				FAE40E3923B63ABA00FE3E31 /* UIView+CoreKit.swift */,
 				151F600523FABDF6006D326C /* NotificationName.swift */,
 				1572EBBF23ED88A000DBCA53 /* UIImage + set.swift */,
 			);
@@ -168,7 +165,7 @@
 		FA23320123CF6FA20030911A /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				1526677B23CF19D0005EED2A /* TrackInformation.swift */,
+				1526677B23CF19D0005EED2A /* MetaData.swift */,
 				1520E5F623EC464A00363377 /* StatePlay.swift */,
 			);
 			path = Model;
@@ -256,11 +253,10 @@
 				957626C323B6102F00696C7E /* AppDelegate.swift in Sources */,
 				FA2331FF23CF6F0E0030911A /* DevicesListViewController.swift in Sources */,
 				151CCA7B23E2FC5B00A30D4F /* TrackListViewController.swift in Sources */,
-				FAE40E3A23B63ABA00FE3E31 /* UIView+CoreKit.swift in Sources */,
 				957626DE23B610AC00696C7E /* Array+removeObject.swift in Sources */,
 				1520E5F723EC464A00363377 /* StatePlay.swift in Sources */,
 				1572EBC023ED88A000DBCA53 /* UIImage + set.swift in Sources */,
-				1526677C23CF19D0005EED2A /* TrackInformation.swift in Sources */,
+				1526677C23CF19D0005EED2A /* MetaData.swift in Sources */,
 				15E24A9223E986F000D51989 /* TrackTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

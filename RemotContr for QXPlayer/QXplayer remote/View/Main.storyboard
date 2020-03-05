@@ -330,6 +330,9 @@
                                     </stackView>
                                     <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.10000000149011612" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="jzY-ZP-KHX">
                                         <rect key="frame" x="-2" y="15.5" width="388" height="31"/>
+                                        <connections>
+                                            <action selector="trackDurationAction:" destination="ozQ-zY-Fye" eventType="valueChanged" id="8VU-fb-UtH"/>
+                                        </connections>
                                     </slider>
                                 </subviews>
                             </stackView>
@@ -376,6 +379,9 @@
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.10000000149011612" minValue="0.0" maxValue="1" minimumValueImage="speaker.3.fill" catalog="system" maximumValueImage="textformat.123" translatesAutoresizingMaskIntoConstraints="NO" id="IWo-cJ-ntr">
                                 <rect key="frame" x="66.5" y="677" width="281" height="31"/>
                                 <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <action selector="volumeAction:" destination="ozQ-zY-Fye" eventType="valueChanged" id="LtC-Y6-r0c"/>
+                                </connections>
                             </slider>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dac 24/44.1 kHz Stereo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9yC-Ei-Jdh">
                                 <rect key="frame" x="140" y="715" width="134" height="14.5"/>

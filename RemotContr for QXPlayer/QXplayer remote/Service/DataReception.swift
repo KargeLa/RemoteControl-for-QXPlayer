@@ -9,10 +9,10 @@
 import Foundation
 
 protocol PlayerDataActionsDelegate: class {
-    func dataAction(volume: Int)
-    func dataAction(metaData: TrackInformation)
+    func dataAction(volume: Float)
+    func dataAction(metaData: MetaData)
     func dataAction(command: String)
-    func dataAction(currentTime: Int)
+    func dataAction(currentTime: Float)
     func dataAction(listTrack: [String])
 }
 

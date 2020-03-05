@@ -22,11 +22,11 @@ class TrackListViewController: UIViewController {
         }
     }
     
-    var currentTrack: TrackInformation? {
+    var currentTrack: MetaData? {
         didSet {
-            backgroundImage?.setImage(with: currentTrack?.imageData)
-            trackImageView?.setImage(with: currentTrack?.imageData)
-            trackNameLabel?.text = currentTrack?.trackName
+            backgroundImage?.setImage(with: currentTrack?.albumArt)
+            trackImageView?.setImage(with: currentTrack?.albumArt)
+            trackNameLabel?.text = currentTrack?.title
         }
     }
     weak var delegate: SelectedDelegate?
