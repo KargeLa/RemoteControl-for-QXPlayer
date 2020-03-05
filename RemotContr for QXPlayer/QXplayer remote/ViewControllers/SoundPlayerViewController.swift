@@ -123,9 +123,9 @@ class SoundPlayerViewController: UIViewController {
         }
     }
     
-    private func sendDataToComputerPlayer(volume: Float? = nil, metaData: MetaData? = nil, command: String? = nil, currentTime: Float? = nil, listTrack: [String]? = nil, currentTrackName: String? = nil) {
+    private func sendDataToComputerPlayer(volume: Float? = nil, metaData: MetaData? = nil, command: String? = nil, currentTime: Float? = nil, fileSystem: PlayerFileSystem? = nil, currentTrackName: String? = nil) {
         
-        let playerData = PlayerData(volume: volume, metaData: metaData, command: command, currentTime: currentTime, listTrack: listTrack, currentTrackName: currentTrackName)
+        let playerData = PlayerData(volume: volume, metaData: metaData, command: command, currentTime: currentTime, playerFileSystem: fileSystem, currentTrackName: currentTrackName)
         
         guard let data = playerData.json else { return }
         appDelegate.bonjourServer.send(data)
@@ -165,8 +165,8 @@ extension SoundPlayerViewController: PlayerDataActionsDelegate {
         trackSlider.value = currentTime
     }
     
-    func dataAction(listTrack: [String]) {
-        trackListVC()?.listTracks = listTrack
+    func dataAction(fileSystem: PlayerFileSystem) {
+        trackListVC()?.playerFileSystem = fileSystem
     }
     
     

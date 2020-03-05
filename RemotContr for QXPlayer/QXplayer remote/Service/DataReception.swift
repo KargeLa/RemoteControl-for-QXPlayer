@@ -13,7 +13,7 @@ protocol PlayerDataActionsDelegate: class {
     func dataAction(metaData: MetaData)
     func dataAction(command: String)
     func dataAction(currentTime: Float)
-    func dataAction(listTrack: [String])
+    func dataAction(fileSystem: PlayerFileSystem)
 }
 
 class PlayerManager {
@@ -34,8 +34,8 @@ class PlayerManager {
         if let currentTime = playerData.currentTime {
             delegate?.dataAction(currentTime: currentTime)
         }
-        if let listTrack = playerData.listTrack {
-            delegate?.dataAction(listTrack: listTrack)
+        if let playerFileSystem = playerData.playerFileSystem {
+            delegate?.dataAction(fileSystem: playerFileSystem)
         }
     }
 }

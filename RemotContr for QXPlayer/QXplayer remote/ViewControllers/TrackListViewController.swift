@@ -15,12 +15,16 @@ protocol SelectedDelegate: class {
 class TrackListViewController: UIViewController {
     
     //MARK: - Properties
-    
-    var listTracks: [String]? {
+    var playerFileSystem: PlayerFileSystem? {
         didSet {
             tableView?.reloadData()
         }
     }
+//    var listTracks: [String]? {
+//        didSet {
+//            tableView?.reloadData()
+//        }
+//    }
     
     var currentTrack: MetaData? {
         didSet {
@@ -143,19 +147,55 @@ class TrackListViewController: UIViewController {
 
 extension TrackListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return listTracks?.count ?? 0
+        return (playerFileSystem?.trackList?.count ?? 0) + (playerFileSystem?.trackList?.count ?? 0) + 1
+            //listTracks?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? TrackTableViewCell else { return UITableViewCell() }
-    
-        cell.setCell(fromList: listTracks![indexPath.row])
+        if indexPath.row == 0 {
+            let previousFolderCell = tableView.dequeueReusableCell(withIdentifier: "previousFolder", for: indexPath) as! TrackTableViewCell
+            previousFolderCell.setPreviousFolder(name: (playerFileSystem?.titlePreviousFolder)!)
+            return previousFolderCell
+        }
         
-        return cell
+        if let otherFolders = playerFileSystem?.otherFolders {
+            if indexPath.row < (otherFolders.count + 1) {
+                let folderCell = tableView.dequeueReusableCell(withIdentifier: "folderCell", for: indexPath) as! TrackTableViewCell
+                folderCell.setfolder(name: otherFolders[indexPath.row - 1])
+                return folderCell
+            }
+        }
+        
+        if let trackList = playerFileSystem?.trackList {
+            let songDataBoxCell = tableView.dequeueReusableCell(withIdentifier: "songDataBox", for: indexPath) as! TrackTableViewCell
+            let countFolders = playerFileSystem?.otherFolders?.count ?? 0
+            songDataBoxCell.setCell(fromList: trackList[indexPath.row - countFolders - 1])
+            return songDataBoxCell
+        }
+ 
+        return UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        showPlayView()
-        delegate?.changedTrack(currentTrackName: listTracks![indexPath.row])
+        
+        if indexPath.row == 0 {
+            print("previous")
+            return
+        }
+        
+        var countFolder = 0
+        if let count = playerFileSystem?.otherFolders?.count {
+            if indexPath.row < count + 1 {
+                print("otherFolders")
+                return
+            }
+            countFolder = count
+        }
+        
+        if let trackList = playerFileSystem?.trackList {
+            showPlayView()
+            delegate?.changedTrack(currentTrackName: trackList[indexPath.row - countFolder - 1])
+        }
+            
     }
 }
