@@ -141,6 +141,8 @@ extension SoundPlayerViewController: SelectedDelegate {
     }
 }
 
+//MARK: - DataActionsDelegate
+
 extension SoundPlayerViewController: DataActionsDelegate {
     func dataAction(volume: Int) {
         soundSlider.value = Float(volume)
@@ -155,7 +157,7 @@ extension SoundPlayerViewController: DataActionsDelegate {
         case StatePlay.notPlayningMusic.rawValue: currentState = .notPlayningMusic
         case StatePlay.playningMusic.rawValue: currentState = .playningMusic
         default:
-            print("defaultCase")
+            print(#function)
         }
     }
     

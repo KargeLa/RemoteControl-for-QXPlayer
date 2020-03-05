@@ -16,7 +16,11 @@ class TrackListViewController: UIViewController {
     
     //MARK: - Properties
     
-    var listTracks: [String]?
+    var listTracks: [String]? {
+        didSet {
+            tableView?.reloadData()
+        }
+    }
     var currentTrack: TrackInformation? {
         didSet {
             backgroundImage?.setImage(with: currentTrack?.imageData)
