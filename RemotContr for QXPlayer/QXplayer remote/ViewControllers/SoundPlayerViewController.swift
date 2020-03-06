@@ -123,9 +123,9 @@ class SoundPlayerViewController: UIViewController {
         }
     }
     
-    private func sendDataToComputerPlayer(volume: Float? = nil, metaData: MetaData? = nil, command: String? = nil, currentTime: Float? = nil, fileSystem: PlayerFileSystem? = nil, currentTrackName: String? = nil) {
+    private func sendDataToComputerPlayer(volume: Float? = nil, metaData: MetaData? = nil, command: String? = nil, currentTime: Float? = nil, currentTrackName: String? = nil, nameFolder: String? = nil) {
         
-        let playerData = PlayerData(volume: volume, metaData: metaData, command: command, currentTime: currentTime, playerFileSystem: fileSystem, currentTrackName: currentTrackName)
+        let playerData = PlayerData(volume: volume, metaData: metaData, command: command, currentTime: currentTime, fileSystem: nil, currentTrackName: currentTrackName, pathNewFolder: nameFolder)
         
         guard let data = playerData.json else { return }
         appDelegate.bonjourServer.send(data)
@@ -136,6 +136,10 @@ class SoundPlayerViewController: UIViewController {
 //MARK: - SelectedDelegate
 
 extension SoundPlayerViewController: SelectedDelegate {
+    func changeFolder(path: String) {
+        sendDataToComputerPlayer(nameFolder: path)
+    }
+    
     func changedTrack(currentTrackName: String) {
         sendDataToComputerPlayer(currentTrackName: currentTrackName)
     }
@@ -165,8 +169,8 @@ extension SoundPlayerViewController: PlayerDataActionsDelegate {
         trackSlider.value = currentTime
     }
     
-    func dataAction(fileSystem: PlayerFileSystem) {
-        trackListVC()?.playerFileSystem = fileSystem
+    func dataAction(fileSystem: [File]) {
+        trackListVC()?.fileSystem = fileSystem
     }
     
     

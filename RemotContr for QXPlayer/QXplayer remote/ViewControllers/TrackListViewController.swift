@@ -10,21 +10,17 @@ import UIKit
 
 protocol SelectedDelegate: class {
     func changedTrack(currentTrackName: String)
+    func changeFolder(path: String)
 }
 
 class TrackListViewController: UIViewController {
     
     //MARK: - Properties
-    var playerFileSystem: PlayerFileSystem? {
+    var fileSystem: [File]? {
         didSet {
             tableView?.reloadData()
         }
     }
-//    var listTracks: [String]? {
-//        didSet {
-//            tableView?.reloadData()
-//        }
-//    }
     
     var currentTrack: MetaData? {
         didSet {
@@ -141,35 +137,59 @@ class TrackListViewController: UIViewController {
     @objc private func showSoundPlayer() {
         tabBarController?.selectedIndex = 0
     }
+    
+    private func returnPreviousPath() -> String {
+        var returnPath = ""
+        guard let fileSystem = fileSystem else { return returnPath }
+
+        if let folder = fileSystem.first(where: { $0.type == .folder }) {
+            returnPath = folder.path
+            let countFolderName = folder.name.count
+            
+            for _ in 0..<countFolderName {
+                returnPath.removeLast()
+            }
+            returnPath.removeLast()
+            return returnPath
+        } else if let track = fileSystem.first(where: { $0.type == .music }) {
+            returnPath = track.path
+            var deleteSymbol: Character = " "
+            
+            while deleteSymbol != "/" {
+                deleteSymbol = returnPath.removeLast()
+            }
+            deleteSymbol = returnPath.removeLast()
+            while deleteSymbol != "/" {
+                deleteSymbol = returnPath.removeLast()
+            }
+            return returnPath
+        }
+        
+        return returnPath
+    }
 }
 
 //MARK: - TableView DataSource & Delegate
 
 extension TrackListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (playerFileSystem?.trackList?.count ?? 0) + (playerFileSystem?.trackList?.count ?? 0) + 1
-            //listTracks?.count ?? 0
+        return (fileSystem?.count ?? 0) + 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
             let previousFolderCell = tableView.dequeueReusableCell(withIdentifier: "previousFolder", for: indexPath) as! TrackTableViewCell
-            previousFolderCell.setPreviousFolder(name: (playerFileSystem?.titlePreviousFolder)!)
+            previousFolderCell.setPreviousFolder()
             return previousFolderCell
         }
         
-        if let otherFolders = playerFileSystem?.otherFolders {
-            if indexPath.row < (otherFolders.count + 1) {
-                let folderCell = tableView.dequeueReusableCell(withIdentifier: "folderCell", for: indexPath) as! TrackTableViewCell
-                folderCell.setfolder(name: otherFolders[indexPath.row - 1])
-                return folderCell
-            }
-        }
-        
-        if let trackList = playerFileSystem?.trackList {
+        if fileSystem![indexPath.row - 1].type == .folder {
+            let folderCell = tableView.dequeueReusableCell(withIdentifier: "folderCell", for: indexPath) as! TrackTableViewCell
+            folderCell.setfolder(name: fileSystem![indexPath.row - 1].name)
+            return folderCell
+        } else if fileSystem![indexPath.row - 1].type == .music {
             let songDataBoxCell = tableView.dequeueReusableCell(withIdentifier: "songDataBox", for: indexPath) as! TrackTableViewCell
-            let countFolders = playerFileSystem?.otherFolders?.count ?? 0
-            songDataBoxCell.setCell(fromList: trackList[indexPath.row - countFolders - 1])
+            songDataBoxCell.setCell(fromList: fileSystem![indexPath.row - 1].name)
             return songDataBoxCell
         }
  
@@ -179,22 +199,17 @@ extension TrackListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if indexPath.row == 0 {
-            print("previous")
+            delegate?.changeFolder(path: returnPreviousPath())
             return
         }
         
-        var countFolder = 0
-        if let count = playerFileSystem?.otherFolders?.count {
-            if indexPath.row < count + 1 {
-                print("otherFolders")
-                return
-            }
-            countFolder = count
-        }
-        
-        if let trackList = playerFileSystem?.trackList {
+        if fileSystem![indexPath.row - 1].type == .folder {
+            delegate?.changeFolder(path: fileSystem![indexPath.row - 1].path)
+            return
+        } else if fileSystem![indexPath.row - 1].type == .music {
             showPlayView()
-            delegate?.changedTrack(currentTrackName: trackList[indexPath.row - countFolder - 1])
+            delegate?.changedTrack(currentTrackName: fileSystem![indexPath.row - 1].name)
+            return
         }
             
     }

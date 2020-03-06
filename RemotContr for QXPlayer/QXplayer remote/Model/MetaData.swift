@@ -8,42 +8,14 @@
 
 import Foundation
 
-//struct TrackList: Codable {
-//    var tracksInformation: [TrackInformation]
-//    var currentTrack: TrackInformation
-//
-//    mutating func nextTrack() -> TrackInformation? {
-//        if currentTrack.trackName == tracksInformation.last?.trackName {
-//            return nil
-//        } else {
-//            guard let currentIndex = tracksInformation.firstIndex(where: { $0.trackName == currentTrack.trackName }) else { return nil }
-//            currentTrack = tracksInformation[currentIndex + 1]
-//            return currentTrack
-//        }
-//    }
-//
-//    mutating func prevTrack() -> TrackInformation? {
-//        if currentTrack.trackName == tracksInformation.first?.trackName {
-//            return nil
-//        } else {
-//            guard let currentIndex = tracksInformation.firstIndex(where: { $0.trackName == currentTrack.trackName }) else { return nil }
-//            currentTrack = tracksInformation[currentIndex - 1]
-//            return currentTrack
-//        }
-//    }
-//
-//    func searchTrack(byTrackName trackName: String) -> TrackInformation? {
-//        return tracksInformation.first { $0.trackName == trackName }
-//    }
-//}
-
 struct PlayerData: Codable {
     var volume: Float?
     var metaData: MetaData?
     var command: String?
     var currentTime: Float?
-    var playerFileSystem: PlayerFileSystem?
+    var fileSystem: [File]?
     var currentTrackName: String?
+    var pathNewFolder: String?
     
     var json: Data? {
         guard let data = try? JSONEncoder().encode(self) else { return nil }
@@ -64,9 +36,13 @@ struct MetaData: Codable {
     var year: String?
 }
 
-struct PlayerFileSystem: Codable {
-    var trackList: [String]?
-    var titleMainFolder: String
-    var titlePreviousFolder: String?
-    var otherFolders: [String]?
+struct File: Codable {
+    var name: String
+    var type: TypeFile
+    var path: String
+}
+
+enum TypeFile: String, Codable {
+    case music
+    case folder
 }

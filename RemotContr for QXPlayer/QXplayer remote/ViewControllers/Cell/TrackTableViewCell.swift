@@ -18,9 +18,9 @@ class TrackTableViewCell: UITableViewCell {
         trackName.text = name
     }
     
-    func setPreviousFolder(name: String) {
+    func setPreviousFolder() {
         //trackImageView.image = UIImage(named: "default")
-        trackName.text = name
+        trackName.text = ""
     }
     func setfolder(name: String) {
         trackName.text = name
