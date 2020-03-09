@@ -111,7 +111,7 @@ class TrackListViewController: UIViewController {
     
     //MARK: - IBAction
     
-    @IBAction func playButton(_ sender: UIButton) {
+    @IBAction func playButton() {
         currentState = currentState.opposite
         guard let soundPlayerVC = soundPlayerVC() else { return }
         soundPlayerVC.playOrPauseAction()
@@ -127,6 +127,9 @@ class TrackListViewController: UIViewController {
     private func showPlayView() {
         if heightPlayMusicConstraint?.constant == 0 {
             transitionAnimator = UIViewPropertyAnimator(duration: 0.5, dampingRatio: 0.5, animations: { [weak self] in
+                if self?.currentState == .notPlayningMusic {
+                    self?.playButton()
+                }
                 self?.heightPlayMusicConstraint.constant = 70
                 self?.view.layoutIfNeeded()
             })

@@ -194,7 +194,7 @@
                                                             </constraints>
                                                             <state key="normal" image="smallPlay"/>
                                                             <connections>
-                                                                <action selector="playButton:" destination="G4p-3B-AD7" eventType="touchUpInside" id="a7L-PX-SQe"/>
+                                                                <action selector="playButton" destination="G4p-3B-AD7" eventType="touchUpInside" id="Imq-wo-67s"/>
                                                             </connections>
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="i30-dG-1fA">
