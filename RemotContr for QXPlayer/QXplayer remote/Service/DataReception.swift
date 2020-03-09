@@ -20,7 +20,7 @@ class PlayerManager {
     weak var delegate: PlayerDataActionsDelegate?
     
     func handleData(data: Data) {
-        guard let playerData = try? JSONDecoder().decode(PlayerData.self, from: data) else { return }
+        guard let playerData: ReciveDataOnly = try? JSONDecoder().decode(PlayerData.self, from: data) else { return }
         
         if let volume = playerData.volume {
             delegate?.dataAction(volume: volume)
