@@ -8,12 +8,31 @@
 
 import Foundation
 
-struct PlayerData: Codable {
+
+protocol ReciveDataOnly {
+    var volume: Float? { get }
+    var command: String? { get }
+    var currentTime: Float? { get }
+    var fileSystem: [File]? { get }
+    var metaData: MetaData? { get }
+}
+
+protocol SendDataOnly {
+    var volume: Float? { get set }
+    var command: String? { get set }
+    var currentTime: Float? { get set }
+    var currentTrackName: String? { get set }
+    var pathNewFolder: String? { get set }
+}
+
+struct PlayerData: Codable, ReciveDataOnly, SendDataOnly {
     var volume: Float?
-    var metaData: MetaData?
     var command: String?
     var currentTime: Float?
+    
     var fileSystem: [File]?
+    var metaData: MetaData?
+    
     var currentTrackName: String?
     var pathNewFolder: String?
     

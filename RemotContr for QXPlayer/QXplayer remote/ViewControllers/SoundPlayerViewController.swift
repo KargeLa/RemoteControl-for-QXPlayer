@@ -123,9 +123,9 @@ class SoundPlayerViewController: UIViewController {
         }
     }
     
-    private func sendDataToComputerPlayer(volume: Float? = nil, metaData: MetaData? = nil, command: String? = nil, currentTime: Float? = nil, currentTrackName: String? = nil, nameFolder: String? = nil) {
+    private func sendDataToComputerPlayer(volume: Float? = nil, command: String? = nil, currentTime: Float? = nil, currentTrackName: String? = nil, nameFolder: String? = nil) {
         
-        let playerData = PlayerData(volume: volume, metaData: metaData, command: command, currentTime: currentTime, fileSystem: nil, currentTrackName: currentTrackName, pathNewFolder: nameFolder)
+        let playerData = PlayerData(volume: volume, command: command, currentTime: currentTime, fileSystem: nil, metaData: nil, currentTrackName: currentTrackName, pathNewFolder: nameFolder)
         
         guard let data = playerData.json else { return }
         appDelegate.bonjourServer.send(data)
