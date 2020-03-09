@@ -119,7 +119,7 @@ class TrackListViewController: UIViewController {
     
     @IBAction func nextButton(_ sender: Any) {
         let json = ["action": 3]
-        remoteControle.sendData(json: json)
+        soundPlayerVC()?.nextButtonClicked(sender as! UIButton)
     }
     
     //MARK: - Supporting
