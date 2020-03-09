@@ -12,23 +12,19 @@ class SoundPlayerViewController: UIViewController {
     
     //MARK: - Properties
     
+    var playCommand: Bool = false
     var timer = Timer()
     let formatter = DateComponentsFormatter()
     var currentTime = 0
     
-    var _service: NetService?
-    var trackList: TrackList? {
+    var currentTrack: MetaData? {
         didSet {
-            guard let currentTrack = trackList?.currentTrack else { return }
+            guard let currentTrack = currentTrack else { return }
             updateUI(trackInformation: currentTrack)
         }
     }
     
-    private var bonjourServer: BonjourServer! {
-        didSet {
-            bonjourServer.delegate = self
-        }
-    }
+    private lazy var appDelegate = AppDelegate.shared()
     
     var currentState: StatePlay = .notPlayningMusic {
         didSet {
@@ -81,70 +77,108 @@ class SoundPlayerViewController: UIViewController {
     }
     
     @IBAction func playOrPauseAction() {
-        currentState = currentState.opposite
-        sendCommand(command: currentState.rawValue)
+        playCommand.toggle()
+        if playCommand == true {
+            currentState = currentState.opposite
+            let json = ["action": 1]
+            sendData(json: json)
+        } else if playCommand == false {
+            currentState = currentState.opposite
+            let json = ["action": 2, "currentTime": 20]
+            sendData(json: json)
+        }
     }
     
-    @IBAction func backwardAction(_ sender: UIButton) {
-        guard let _ = trackList?.prevTrack() else { return }
-        sendCommand(command: "back")
+    @IBAction func previousButtonClicked(_ sender: UIButton) {
+        let json = ["action": 4]
+        sendData(json: json)
     }
     
-    func forward() {
-        guard let _ = trackList?.nextTrack() else { return }
-        sendCommand(command: "forward")
-    }
-    
-    @IBAction func forwardAction(_ sender: UIButton) {
-        guard let _ = trackList?.nextTrack() else { return }
-        sendCommand(command: "forward")
+    @IBAction func nextButtonClicked(_ sender: UIButton) {
+        let json = ["action": 3]
+        sendData(json: json)
     }
     
     //MARK: - LifeCyrcle
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        super.prepare(for: segue, sender: sender)
-        
-        if segue.identifier == "container" { // for only ipda
-            let trackListVc = segue.destination as! TrackListViewController
-            trackListVc.delegate = self
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if let image = trackImageView.image {
-            view.backgroundColor = UIColor(patternImage: image)
-        }
-        
-        bonjourServer = BonjourServer()
+        trackListVC()?.delegate = self
+        NotificationCenter.default.addObserver(self, selector: #selector(dataCameFromTheServer(_: )), name: .dataCameFromTheServer, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(changedTheNumberOfDevices(_: )), name: .changedTheNumberOfDevices, object: nil)
         navigationController?.navigationBar.isHidden = true
-        
-        if let service = _service {
-            bonjourServer.connectTo(service)
-        }
     }
     
     //MARK: - Supporting
     
-    private func showCurrentTimeLabel(maxCurrentTime: Int) {
-        self.currentTimeSlider.maximumValue = Float(maxCurrentTime)
-        self.currentTimeLabel.text = timeConvert(maxCurrentTime: currentTime)
-        self.currentTimeSlider.value = Float(currentTime)
-        currentTime += 1
-        print("now - \(currentTime)")
-        if currentTime == maxCurrentTime + 1 {
-            self.timer.invalidate()
-            self.currentTimeLabel.text = " "
-            self.maxCurrentTimeLabel.text = " "
+    @objc private func dataCameFromTheServer(_ notification: Notification) {
+        if let data = notification.userInfo?["data"] as? Data {
+            if let package = try? JSONDecoder().decode(PlayerManager.self, from: data),
+                let actionInt = package.action,
+                
+                let action = ActionType(rawValue: actionInt) {
+                switch action {
+                case .connect:
+                    let trackList = package.nameOfTracks
+                    trackListVC()?.trackList = trackList
+                    
+                    guard let currentTrackInformation = package.currentTrack else {
+                        return
+                    }
+                    self.currentTrack = currentTrackInformation
+                    trackListVC()?.currentTrack = currentTrackInformation
+                    updateUI(trackInformation: currentTrackInformation)
+                case .play:
+                    //                    currentState = currentState.opposite
+                    sendCommand(command: currentState.rawValue)
+                    break
+                case .pause:
+                    currentState = currentState.opposite
+                    sendCommand(command: currentState.rawValue)
+                    break
+                case .next:
+                    break
+                case .prev:
+                    break
+                case .volume:
+                    break
+                case .time:
+                    break
+                case .changedTrack:
+                    guard let currentTrackInformation = package.currentTrack else {
+                        return
+                    }
+                    self.currentTrack = currentTrackInformation
+                    trackListVC()?.currentTrack = currentTrack
+                    break
+                }
+            }
         }
     }
-    private func timerForCurrentTimeLable(maxCurrentTime: Int) {
-        self.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { (_) in
-            self.showCurrentTimeLabel(maxCurrentTime: maxCurrentTime)
+    
+    private func sendDataToQXPlayer(metaData: MetaData? = nil, action: Int? = nil, maxCurrentTime: Int? = nil, currentTime: Int? = nil, currentVolume: Float? = nil, currentTrackName: String? = nil) {
+        
+        let playerData = PlayerManager(currentTrack: metaData, action: action, maxCurrentTime: maxCurrentTime, currentTime: currentTime, currentVolume: currentVolume, currentTrackName: currentTrackName)
+        
+        guard let data = playerData.json else { return }
+        appDelegate.bonjourServer.send(data)
+    }
+    
+    @objc private func changedTheNumberOfDevices(_ notification: Notification) {
+        if let devices = appDelegate.bonjourServer.devices {
+            devices.forEach { (device) in
+                if appDelegate.bonjourServer.connectToServer(device) {
+                    return
+                }
+            }
+            navigationController?.popViewController(animated: true)
+            if let vc = navigationController?.topViewController as? DevicesListViewController {
+                vc.listTableView.reloadData()
+                appDelegate.bonjourServer = BonjourServer()
+            }
+            
+            navigationController?.navigationBar.isHidden = false
         }
-        self.timer.fire()
     }
     
     private func timeConvert (maxCurrentTime: Int) -> String {
@@ -154,9 +188,9 @@ class SoundPlayerViewController: UIViewController {
         return strMaxCurrentTime!
     }
     
-    private func updateUI(trackInformation: TrackInformation ) {
-        guard let trackImage = UIImage(data: trackInformation.imageData) else { return }
-        trackNameLabel.text = trackInformation.trackName
+    private func updateUI(trackInformation: MetaData ) {
+        guard let trackImage = UIImage(data: trackInformation.albumArt) else { return }
+        trackNameLabel.text = trackInformation.title
         artistNameLabel.text = trackInformation.albumName
         trackImageView.image = trackImage
         view.backgroundColor = UIColor(patternImage: trackImage)
@@ -164,113 +198,23 @@ class SoundPlayerViewController: UIViewController {
     
     private func sendCommand(command: String) {
         if let data = command.data(using: .utf8) {
-            bonjourServer.send(data)
+            appDelegate.bonjourServer.send(data)
         }
     }
-    private func sendData(json: [String: Any]) {
+    
+    func sendData(json: [String: Any]) {
         guard let commandData = try? JSONSerialization.data(withJSONObject: json, options: [.prettyPrinted]) else {
             return
         }
-        bonjourServer.send(commandData)
+        appDelegate.bonjourServer.send(commandData)
     }
 }
 
-
-//MARK: - BonjourServerDelegate
-
-extension SoundPlayerViewController: BonjourServerDelegate {
-    func connected() {
-        print("connected")
-    }
-    
-    func disconnected() {
-        print("disconnected")
-    }
-    
-    func handleBody(_ body: Data?) {
-        guard let data = body else {
-            return
-        }
-        if let trackList = try? JSONDecoder().decode(TrackList.self, from: data) {
-            self.trackList = trackList
-            trackListVC()?.trackList = trackList
-            trackListVC()?.delegate = self
-        }
-        //        let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-        if let package = try? JSONDecoder().decode(Package.self, from: data),
-            let actionInt = package.action,
-            let action = ActionType(rawValue: actionInt) {
-            switch action {
-            case .play:
-                currentState = currentState.opposite
-                sendCommand(command: currentState.rawValue)
-                //                currentTimeSlider.value = Float(package.currentTime!)
-                guard let maxCurrentTime = package.maxCurrentTime else {
-                    return
-                }
-                guard let currentTime = package.currentTime else {
-                    return
-                }
-                currentTimeLabel.text = timeConvert(maxCurrentTime: currentTime)
-                maxCurrentTimeLabel.text = timeConvert(maxCurrentTime: maxCurrentTime)
-                timerForCurrentTimeLable(maxCurrentTime: maxCurrentTime)
-                break
-            case .pause:
-                currentState = currentState.opposite
-                sendCommand(command: currentState.rawValue)
-                //                currentTimeSlider.value = Float(package.currentTime!)
-                //                currentTimeLabel.text = "\(package.currentTime!)"
-                break
-            case .next:
-                guard let _ = trackList?.nextTrack() else { return }
-                sendCommand(command: "forward")
-                currentTimeSlider.value = Float(package.currentTime!)
-                currentTimeLabel.text = "\(package.currentTime!)"
-                break
-            case .prev:
-                guard let _ = trackList?.prevTrack() else { return }
-                sendCommand(command: "back")
-                currentTimeSlider.value = Float(package.currentTime!)
-                currentTimeLabel.text = "\(package.currentTime!)"
-                break
-            case .volume:
-                break
-            case .time:
-                break
-            }
-        }
-    }
-    
-    func didChangeServices() {
-        if let devices = bonjourServer.devices, let service = _service {
-            if devices.count == .zero {
-                navigationController?.popViewController(animated: true)
-                navigationController?.navigationBar.isHidden = false
-            } else {
-                if let device = devices.first(where: { $0 == service }) {
-                    if bonjourServer.connectToServer(device) {
-                        return
-                    } else {
-                        bonjourServer.connectTo(device)
-                    }
-                }
-                navigationController?.popViewController(animated: true)
-                navigationController?.navigationBar.isHidden = false
-            }
-        }
-    }
-}
 
 //MARK: - SelectedDelegate
 
 extension SoundPlayerViewController: SelectedDelegate {
-    func changedTrack(currentTrackName: String) {
-        
-        if let trackInformation = trackList?.searchTrack(byTrackName: currentTrackName) {
-            trackList?.currentTrack = trackInformation
-            sendCommand(command: currentTrackName)
-        }
+    func changedTrack(currentTrackName: String, action: Int) {
+        sendDataToQXPlayer(action: action, currentTrackName: currentTrackName)
     }
-    
-    
 }

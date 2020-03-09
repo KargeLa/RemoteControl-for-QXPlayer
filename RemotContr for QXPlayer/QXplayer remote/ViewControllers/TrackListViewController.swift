@@ -9,27 +9,26 @@
 import UIKit
 
 protocol SelectedDelegate: class {
-    func changedTrack(currentTrackName: String)
+    func changedTrack(currentTrackName: String, action: Int)
 }
 
 class TrackListViewController: UIViewController {
     
     //MARK: - Properties
     
-    var trackList: TrackList? {
+    var remoteControle = SoundPlayerViewController()
+    var currentTrack: MetaData? {
         didSet {
-            if oldValue?.tracksInformation.first?.trackName != trackList?.tracksInformation.first?.trackName {
-                tableView?.reloadData()
+            backgroundImage?.setImage(with: currentTrack?.albumArt)
+            if let text = currentTrack?.title {
+                trackNameLabel?.text = text
             }
-            guard trackImageView != nil else { return }
-            trackImageView.setImage(with: trackList?.currentTrack.imageData)
-            trackNameLabel.text = trackList?.currentTrack.trackName
-            
-            if backgroundImage != nil {
-                backgroundImage.setImage(with: trackList?.currentTrack.imageData)
+            if let trackImage = UIImage(data: currentTrack!.albumArt) {
+                trackImageView?.image = trackImage
             }
         }
     }
+    var trackList: [String]?
     
     weak var delegate: SelectedDelegate?
     
@@ -55,7 +54,7 @@ class TrackListViewController: UIViewController {
         } else if let viewController = self?.parent as? SoundPlayerViewController { // for ipad
             return viewController
         }
-    
+        
         return nil
     }
     
@@ -81,7 +80,7 @@ class TrackListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         navigationController?.navigationBar.isHidden = true
         trackImageView?.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
         trackImageView?.layer.shadowOffset = CGSize(width: 0, height: 1)
@@ -107,7 +106,7 @@ class TrackListViewController: UIViewController {
             heightPlayMusicConstraint?.constant = 0
             currentState = .notPlayningMusic
         }
-        trackList?.currentTrack = soundPlayerVC.trackList!.currentTrack
+        currentTrack = soundPlayerVC.currentTrack
     }
     
     //MARK: - Actions
@@ -119,8 +118,8 @@ class TrackListViewController: UIViewController {
     }
     
     @IBAction func nextButton(_ sender: Any) {
-        guard let currentTrack = trackList?.nextTrack() else { return }
-        delegate?.changedTrack(currentTrackName: currentTrack.trackName)
+        let json = ["action": 3]
+        remoteControle.sendData(json: json)
     }
     
     //MARK: - Supporting
@@ -150,23 +149,20 @@ class TrackListViewController: UIViewController {
 
 extension TrackListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return trackList?.tracksInformation.count ?? 0
+        return trackList?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? TrackTableViewCell else { return UITableViewCell() }
-    
-        cell.setCell(from: trackList?.tracksInformation[indexPath.row])
+        
+        cell.setCell(from: trackList?[indexPath.row])
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let trackInformation = trackList?.tracksInformation[indexPath.row] else { return }
-       
-        trackList?.currentTrack = trackInformation
-        
+        guard let trackName = trackList?[indexPath.row] else { return }
         showPlayView()
-        delegate?.changedTrack(currentTrackName: trackInformation.trackName)
+        delegate?.changedTrack(currentTrackName: trackName, action: 7)
     }
 }

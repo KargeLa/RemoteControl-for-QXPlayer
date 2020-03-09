@@ -11,9 +11,19 @@ import UIKit
 @UIApplicationMain
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
+    
+    static func shared() -> AppDelegate {
+        return UIApplication.shared.delegate as! AppDelegate
+    }
 
     var window : UIWindow?
    
+    var bonjourServer: BonjourServer! {
+        didSet {
+            bonjourServer.delegate = self
+        }
+    }
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         window = UIWindow()
@@ -24,6 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         tabBar.backgroundImage = UIImage()
         tabBar.shadowImage = UIImage()
         
+        bonjourServer = BonjourServer()
         // Override point for customization after application launch.
         return true
     }
@@ -43,3 +54,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
+extension AppDelegate: BonjourServerDelegate {
+    func connected() {
+        print(#function)
+    }
+    
+    func disconnected() {
+        print(#function)
+    }
+    
+    func handleBody(_ body: Data?) {
+        guard let data = body else { return }
+        let dataDictionary: [AnyHashable: Any] = ["data": data]
+        NotificationCenter.default.post(name: .dataCameFromTheServer, object: nil, userInfo: dataDictionary)
+    }
+    
+    func didChangeServices() {
+        NotificationCenter.default.post(name: .changedTheNumberOfDevices, object: nil)
+    }
+    
+    
+}
