@@ -10,11 +10,18 @@ import UIKit
 
 protocol SelectedDelegate: class {
     func changedTrack(currentTrackName: String, action: Int)
+    func changeFolder(path: String, action: Int)
 }
 
 class TrackListViewController: UIViewController {
     
     //MARK: - Properties
+    
+    var fileSystem: [File]? {
+        didSet {
+            tableView?.reloadData()
+        }
+    }
     
     var remoteControle = SoundPlayerViewController()
     var currentTrack: MetaData? {
@@ -144,25 +151,77 @@ class TrackListViewController: UIViewController {
     @objc private func showSoundPlayer() {
         tabBarController?.selectedIndex = 0
     }
+    
+    private func returnPreviousPath() -> String {
+        var returnPath = ""
+        guard let fileSystem = fileSystem else { return returnPath }
+
+        if let folder = fileSystem.first(where: { $0.type == .folder }) {
+            returnPath = folder.path
+            let countFolderName = folder.name.count
+            
+            for _ in 0..<countFolderName {
+                returnPath.removeLast()
+            }
+            returnPath.removeLast()
+            return returnPath
+        } else if let track = fileSystem.first(where: { $0.type == .music }) {
+            returnPath = track.path
+            var deleteSymbol: Character = " "
+            
+            while deleteSymbol != "/" {
+                deleteSymbol = returnPath.removeLast()
+            }
+            deleteSymbol = returnPath.removeLast()
+            while deleteSymbol != "/" {
+                deleteSymbol = returnPath.removeLast()
+            }
+            return returnPath
+        }
+        
+        return returnPath
+    }
 }
 //MARK: - TableView DataSource & Delegate
 
 extension TrackListViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return trackList?.count ?? 0
+        return (fileSystem?.count ?? 0) + 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? TrackTableViewCell else { return UITableViewCell() }
+        if indexPath.row == 0 {
+            let previousFolderCell = tableView.dequeueReusableCell(withIdentifier: "previousFolder", for: indexPath) as! TrackTableViewCell
+            previousFolderCell.setPreviousFolder()
+            return previousFolderCell
+        }
         
-        cell.setCell(from: trackList?[indexPath.row])
+        if fileSystem![indexPath.row - 1].type == .folder {
+            let folderCell = tableView.dequeueReusableCell(withIdentifier: "folderCell", for: indexPath) as! TrackTableViewCell
+            folderCell.setfolder(name: fileSystem![indexPath.row - 1].name)
+            return folderCell
+        } else if fileSystem![indexPath.row - 1].type == .music {
+            let songDataBoxCell = tableView.dequeueReusableCell(withIdentifier: "songDataBox", for: indexPath) as! TrackTableViewCell
+            songDataBoxCell.setCell(from: fileSystem![indexPath.row - 1].name)
+            return songDataBoxCell
+        }
         
-        return cell
+        return UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let trackName = trackList?[indexPath.row] else { return }
-        showPlayView()
-        delegate?.changedTrack(currentTrackName: trackName, action: 7)
+        if indexPath.row == 0 {
+            delegate?.changeFolder(path: returnPreviousPath(), action: 8)
+            return
+        }
+        
+        if fileSystem![indexPath.row - 1].type == .folder {
+            delegate?.changeFolder(path: fileSystem![indexPath.row - 1].path, action: 8)
+            return
+        } else if fileSystem![indexPath.row - 1].type == .music {
+            showPlayView()
+            delegate?.changedTrack(currentTrackName: fileSystem![indexPath.row - 1].name, action: 7)
+            return
+        }
     }
 }

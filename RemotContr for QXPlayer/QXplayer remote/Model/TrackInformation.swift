@@ -8,16 +8,16 @@
 
 import Foundation
 
-struct TrackList: Codable {
-    var tracksInformation: [TrackInformation]
-    
-    func searchTrack(byTrackName trackName: String) -> TrackInformation? {
-        return tracksInformation.first { $0.trackName == trackName }
-    }
-}
+//struct TrackList: Codable {
+//    var tracksInformation: [TrackInformation]
+//    
+//    func searchTrack(byTrackName trackName: String) -> TrackInformation? {
+//        return tracksInformation.first { $0.trackName == trackName }
+//    }
+//}
 
-struct TrackInformation: Codable {
-    var trackName: String
-    var albumName: String
-    var imageData: Data
-}
+//struct TrackInformation: Codable {
+//    var trackName: String
+//    var albumName: String
+//    var imageData: Data
+//}

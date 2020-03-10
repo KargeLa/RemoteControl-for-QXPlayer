@@ -9,13 +9,21 @@
 import UIKit
 
 class TrackTableViewCell: UITableViewCell {
-
+    
     @IBOutlet weak var trackImageView: UIImageView!
     @IBOutlet weak var trackName: UILabel!
     
     func setCell(from name: String?) {
         
-//        trackImageView.setImage(with: trackInformation?.imageData)
+        //        trackImageView.setImage(with: trackInformation?.imageData)
+        trackName.text = name
+    }
+    
+    func setPreviousFolder() {
+        //trackImageView.image = UIImage(named: "default")
+        trackName.text = ""
+    }
+    func setfolder(name: String) {
         trackName.text = name
     }
 }

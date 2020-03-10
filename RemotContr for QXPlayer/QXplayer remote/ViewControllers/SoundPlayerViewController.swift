@@ -119,9 +119,9 @@ class SoundPlayerViewController: UIViewController {
                 let action = ActionType(rawValue: actionInt) {
                 switch action {
                 case .connect:
-                    let trackList = package.nameOfTracks
-                    trackListVC()?.trackList = trackList
-                    
+                    if let fileSystem = package.fileSystem {
+                        trackListVC()?.fileSystem = fileSystem
+                    }
                     guard let currentTrackInformation = package.currentTrack else {
                         return
                     }
@@ -151,14 +151,19 @@ class SoundPlayerViewController: UIViewController {
                     self.currentTrack = currentTrackInformation
                     trackListVC()?.currentTrack = currentTrack
                     break
+                case .changedDir:
+                    if let fileSystem = package.fileSystem {
+                        trackListVC()?.fileSystem = fileSystem
+                    }
+                    break
                 }
             }
         }
     }
     
-    private func sendDataToQXPlayer(metaData: MetaData? = nil, action: Int? = nil, maxCurrentTime: Int? = nil, currentTime: Int? = nil, currentVolume: Float? = nil, currentTrackName: String? = nil) {
+    private func sendDataToQXPlayer(metaData: MetaData? = nil, action: Int? = nil, maxCurrentTime: Int? = nil, currentTime: Int? = nil, currentVolume: Float? = nil, currentTrackName: String? = nil, newPath: String? = nil) {
         
-        let playerData = PlayerManager(currentTrack: metaData, action: action, maxCurrentTime: maxCurrentTime, currentTime: currentTime, currentVolume: currentVolume, currentTrackName: currentTrackName)
+        let playerData = PlayerManager(pathNewFolder: newPath, fileSystem: nil, currentTrack: metaData, action: action, maxCurrentTime: maxCurrentTime, currentTime: currentTime, currentVolume: currentVolume, currentTrackName: currentTrackName)
         
         guard let data = playerData.json else { return }
         appDelegate.bonjourServer.send(data)
@@ -214,6 +219,10 @@ class SoundPlayerViewController: UIViewController {
 //MARK: - SelectedDelegate
 
 extension SoundPlayerViewController: SelectedDelegate {
+    func changeFolder(path: String, action: Int) {
+        sendDataToQXPlayer(action: action, newPath: path)
+    }
+    
     func changedTrack(currentTrackName: String, action: Int) {
         sendDataToQXPlayer(action: action, currentTrackName: currentTrackName)
     }

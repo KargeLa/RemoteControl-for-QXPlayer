@@ -33,7 +33,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="separatorColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="cell" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" id="1RM-dw-wJP" customClass="TrackTableViewCell" customModule="QXplayer_remote" customModuleProvider="target">
+                                    <tableViewCell opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="cell" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="songDataBox" id="1RM-dw-wJP" customClass="TrackTableViewCell" customModule="QXplayer_remote" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="1RM-dw-wJP" id="JJd-jK-GWT">
@@ -72,6 +72,90 @@
                                         <connections>
                                             <outlet property="trackImageView" destination="sE0-Bh-Ci6" id="3LK-AY-eac"/>
                                             <outlet property="trackName" destination="oys-Ba-MTc" id="4GB-0Q-0hg"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="cell" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="previousFolder" id="Nyx-hW-eiS" customClass="TrackTableViewCell" customModule="QXplayer_remote" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="72" width="414" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Nyx-hW-eiS" id="4l2-dU-TbM">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ellipsis" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="0TI-Sp-7qN">
+                                                    <rect key="frame" x="10" y="12" width="34" height="19.5"/>
+                                                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="34" id="PnE-d7-dZP"/>
+                                                        <constraint firstAttribute="width" constant="34" id="SIb-3c-v27"/>
+                                                    </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                            <integer key="value" value="17"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wjy-tb-eda">
+                                                    <rect key="frame" x="52" y="12" width="332" height="20.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <constraints>
+                                                <constraint firstItem="wjy-tb-eda" firstAttribute="leading" secondItem="0TI-Sp-7qN" secondAttribute="trailing" constant="8" id="8iB-I8-5BR"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="wjy-tb-eda" secondAttribute="trailing" constant="10" id="DYu-6E-66Y"/>
+                                                <constraint firstItem="0TI-Sp-7qN" firstAttribute="leading" secondItem="4l2-dU-TbM" secondAttribute="leading" constant="10" id="PPo-z5-Hn1"/>
+                                                <constraint firstItem="0TI-Sp-7qN" firstAttribute="centerY" secondItem="4l2-dU-TbM" secondAttribute="centerY" id="rMq-CM-3rp"/>
+                                                <constraint firstItem="wjy-tb-eda" firstAttribute="centerY" secondItem="4l2-dU-TbM" secondAttribute="centerY" id="rS8-SQ-5qY"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <connections>
+                                            <outlet property="trackImageView" destination="0TI-Sp-7qN" id="pdp-Mq-VHp"/>
+                                            <outlet property="trackName" destination="wjy-tb-eda" id="XVO-hC-GOy"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="cell" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="folderCell" id="iJM-fO-thE" customClass="TrackTableViewCell" customModule="QXplayer_remote" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="116" width="414" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="iJM-fO-thE" id="vh9-u2-9og">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="folder.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="bO1-TY-NeA">
+                                                    <rect key="frame" x="10" y="6" width="34" height="31.5"/>
+                                                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="34" id="tIg-rG-gWw"/>
+                                                        <constraint firstAttribute="height" constant="34" id="yW4-Ph-qfS"/>
+                                                    </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                            <integer key="value" value="17"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ast-nF-Hgu">
+                                                    <rect key="frame" x="52" y="12" width="332" height="20.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <constraints>
+                                                <constraint firstItem="bO1-TY-NeA" firstAttribute="centerY" secondItem="vh9-u2-9og" secondAttribute="centerY" id="Ase-jC-8ky"/>
+                                                <constraint firstItem="bO1-TY-NeA" firstAttribute="leading" secondItem="vh9-u2-9og" secondAttribute="leading" constant="10" id="T28-Fp-EDx"/>
+                                                <constraint firstItem="ast-nF-Hgu" firstAttribute="centerY" secondItem="vh9-u2-9og" secondAttribute="centerY" id="ZGw-GX-xfc"/>
+                                                <constraint firstItem="ast-nF-Hgu" firstAttribute="leading" secondItem="bO1-TY-NeA" secondAttribute="trailing" constant="8" id="cfh-d9-qym"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="ast-nF-Hgu" secondAttribute="trailing" constant="10" id="jEl-pk-ypV"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <connections>
+                                            <outlet property="trackImageView" destination="bO1-TY-NeA" id="sgp-DE-wMY"/>
+                                            <outlet property="trackName" destination="ast-nF-Hgu" id="FfU-3Z-MAv"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -481,6 +565,8 @@
     <resources>
         <image name="backward.fill" catalog="system" width="64" height="38"/>
         <image name="doc.on.doc" catalog="system" width="58" height="64"/>
+        <image name="ellipsis" catalog="system" width="64" height="18"/>
+        <image name="folder.fill" catalog="system" width="64" height="46"/>
         <image name="forward.fill" catalog="system" width="64" height="38"/>
         <image name="gobackward" catalog="system" width="60" height="64"/>
         <image name="music.house" catalog="system" width="64" height="52"/>
