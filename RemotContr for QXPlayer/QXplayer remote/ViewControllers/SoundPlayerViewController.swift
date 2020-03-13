@@ -22,8 +22,8 @@ class SoundPlayerViewController: UIViewController {
     
     //MARK: - Properties
     
-    private lazy var appDelegate = AppDelegate.shared()
-    private let playerManager = PlayerManager()
+    private let sendDataManager: SendData = SendDataManager()
+    private let receivingManager: ReceivingData = ReceivingDataManager()
     
     var currentTrack: MetaData? {
         didSet {
@@ -34,7 +34,7 @@ class SoundPlayerViewController: UIViewController {
             trackListVC()?.currentTrack = currentTrack
         }
     }
-        
+    
     var currentState: StatePlay = .notPlayningMusic {
         didSet {
             switch currentState {
@@ -68,80 +68,51 @@ class SoundPlayerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         trackListVC()?.delegate = self
-        playerManager.delegate = self
-        NotificationCenter.default.addObserver(self, selector: #selector(dataCameFromTheServer(_: )), name: .dataCameFromTheServer, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(changedTheNumberOfDevices(_: )), name: .changedTheNumberOfDevices, object: nil)
+        receivingManager.subscribeToReceiveData(signedController: self, navigationVC: self.navigationController!) // subscribe to receive data from the server
         navigationController?.navigationBar.isHidden = true
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+    }
+    
+    deinit {
+        
     }
   
     //MARK: - Action
     
     @IBAction func playOrPauseAction() {
         currentState = currentState.opposite
-        sendDataToComputerPlayer(command: currentState.rawValue)
+        sendDataManager.sendDataToComputerPlayer(command: currentState.rawValue)
     }
     
     @IBAction func backwardAction() {
-        sendDataToComputerPlayer(command: "back")
+         sendDataManager.sendDataToComputerPlayer(command: "back")
     }
     
     @IBAction func forwardAction() {
-        sendDataToComputerPlayer(command: "forward")
+        sendDataManager.sendDataToComputerPlayer(command: "forward")
     }
     
     @IBAction func trackDurationAction(_ sender: UISlider) {
-        sendDataToComputerPlayer(currentTime: sender.value)
+         sendDataManager.sendDataToComputerPlayer(currentTime: sender.value)
     }
     
     @IBAction func volumeAction(_ sender: UISlider) {
-        sendDataToComputerPlayer(volume: sender.value)
+         sendDataManager.sendDataToComputerPlayer(volume: sender.value)
     }
-    
-    
-    //MARK: - Supporting
-    
-    @objc private func dataCameFromTheServer(_ notification: Notification) {
-        if let data = notification.userInfo?["data"] as? Data {
-            playerManager.handleData(data: data)
-        }
-    }
-    
-    @objc private func changedTheNumberOfDevices(_ notification: Notification) {
-        if let devices = appDelegate.bonjourServer.devices {
-            devices.forEach { (device) in
-                if appDelegate.bonjourServer.connectToServer(device) {
-                    return
-                }
-            }
-            navigationController?.popViewController(animated: true)
-            if let vc = navigationController?.topViewController as? DevicesListViewController {
-                vc.listTableView.reloadData()
-                appDelegate.bonjourServer = BonjourServer()
-            }
-            
-            navigationController?.navigationBar.isHidden = false
-        }
-    }
-    
-    private func sendDataToComputerPlayer(volume: Float? = nil, command: String? = nil, currentTime: Float? = nil, currentTrackName: String? = nil, nameFolder: String? = nil) {
-        
-        let playerData = PlayerData(volume: volume, command: command, currentTime: currentTime, fileSystem: nil, metaData: nil, currentTrackName: currentTrackName, pathNewFolder: nameFolder)
-        
-        guard let data = playerData.json else { return }
-        appDelegate.bonjourServer.send(data)
-    }
-    
 }
 
 //MARK: - SelectedDelegate
 
 extension SoundPlayerViewController: SelectedDelegate {
     func changeFolder(path: String) {
-        sendDataToComputerPlayer(nameFolder: path)
+        sendDataManager.sendDataToComputerPlayer(nameFolder: path)
     }
     
     func changedTrack(currentTrackName: String) {
-        sendDataToComputerPlayer(currentTrackName: currentTrackName)
+        sendDataManager.sendDataToComputerPlayer(currentTrackName: currentTrackName)
     }
 }
 
