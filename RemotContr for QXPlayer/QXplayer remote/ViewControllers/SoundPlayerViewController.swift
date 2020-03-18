@@ -23,7 +23,7 @@ class SoundPlayerViewController: UIViewController {
     //MARK: - Properties
     
     private let sendDataManager: SendData = SendDataManager()
-    private let receivingManager: ReceivingData = ReceivingDataManager()
+    private lazy var receivingManager: ReceivingData = ReceivingDataManager(currentViewController: self)
     
     var currentTrack: MetaData? {
         didSet {
@@ -68,18 +68,21 @@ class SoundPlayerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         trackListVC()?.delegate = self
-        receivingManager.subscribeToReceiveData(signedController: self, navigationVC: self.navigationController!) // subscribe to receive data from the server
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(dataCameFromTheServer(_: )), name: .dataCameFromTheServer, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(changedTheNumberOfDevices(_: )), name: .changedTheNumberOfDevices, object: nil)
+        
         navigationController?.navigationBar.isHidden = true
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
+    @objc private func dataCameFromTheServer(_ notification: Notification) {
+        receivingManager.cameData(from: notification)
     }
     
-    deinit {
-        
+    @objc private func changedTheNumberOfDevices(_ notification: Notification) {
+        receivingManager.changeTheNumberOfDevice(navigationController: navigationController)
     }
-  
+    
     //MARK: - Action
     
     @IBAction func playOrPauseAction() {
